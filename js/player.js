@@ -1,10 +1,10 @@
 class Player {
   constructor() {
-    this.test = 'player test';
+    this.ex = 'player test';
   }
 
   test(){
-    console.log(this.test);
+    console.log(this.ex);
   }
 }
 

@@ -8,13 +8,13 @@ var Player = function () {
   function Player() {
     _classCallCheck(this, Player);
 
-    this.test = 'player test';
+    this.ex = 'player test';
   }
 
   _createClass(Player, [{
     key: 'test',
     value: function test() {
-      console.log(this.test);
+      console.log(this.ex);
     }
   }]);
 
@@ -35,13 +35,13 @@ var Video = function () {
   function Video() {
     _classCallCheck(this, Video);
 
-    this.test = 'video test';
+    this.ex = 'video test';
   }
 
   _createClass(Video, [{
     key: 'test',
     value: function test() {
-      console.log(this.test);
+      console.log(this.ex);
     }
   }]);
 

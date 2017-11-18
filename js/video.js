@@ -1,10 +1,10 @@
 class Video {
   constructor() {
-    this.test = 'video test';
+    this.ex = 'video test';
   }
 
   test(){
-    console.log(this.test);
+    console.log(this.ex);
   }
 }
 
