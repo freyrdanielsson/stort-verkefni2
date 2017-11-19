@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  padding: 40px;
+  flex-direction: column;
+  align-items: center;
+
+  .player {
+    display: flex;
+    max-width: 250px;
+    margin: 40px;
+
+    &__button {
+      margin-right: 10px;
+      background-color: Transparent;
+      border: 0;
+    }
+  }
+
+  .back {
+    margin: 40px;
+
+    &__button {
+      background-color: Transparent;
+      border: 0;
+
+      .text {
+        color: #fff;
+      }
+    }
+  }
+}
