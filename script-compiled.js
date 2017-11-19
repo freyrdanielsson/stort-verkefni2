@@ -35,7 +35,13 @@ var Video = function () {
   function Video() {
     _classCallCheck(this, Video);
 
-    this.ex = 'video test';
+    this.newvid = document.createElement('div');
+    this.studvid = document.createElement('div');
+    this.funvid = document.createElement('div');
+
+    this.newvid.setAttribute('class', 'video');
+    this.studvid.setAttribute('class', 'video');
+    this.funvid.setAttribute('class', 'video');
   }
 
   _createClass(Video, [{
@@ -50,7 +56,7 @@ var Video = function () {
 
 document.addEventListener('DOMContentLoaded', function () {
   var video = new Video();
-  video.test();
+  video.load();
 });
 
 //# sourceMappingURL=script-compiled.js.map
