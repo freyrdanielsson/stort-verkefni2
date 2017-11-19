@@ -1,8 +1,10 @@
-@import "scss/elements";
+@import "sass/elements";
+@import "sass/player";
 
 /* setjum box-sizing: border-box; á allt */
 html { /* stylelint-disable-line */
   box-sizing: border-box;
+  background-color: #404040;
 }
 
 *, *:before, *:after { /* stylelint-disable-line */
