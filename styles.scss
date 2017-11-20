@@ -1,5 +1,8 @@
 @import "scss/elements";
 @import "scss/player";
+@import "scss/video_index";
+@import "scss/video_container";
+@import "scss/grid";
 
 /* setjum box-sizing: border-box; á allt */
 html { /* stylelint-disable-line */
@@ -27,11 +30,11 @@ img { /* stylelint-disable-line */
 
 main { /* stylelint-disable-line */
   max-width: $max-width;
-  margin: 0 auto;
+  margin: 0 $gutter;
 
   overflow-x: hidden;
 
-  @media (max-width: 600px) {
-    margin: 0 $gutter;
+  @media (min-width: 1200px) {
+    margin: 0 auto;
   }
 }
