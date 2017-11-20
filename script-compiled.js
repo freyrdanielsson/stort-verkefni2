@@ -8,33 +8,6 @@ var Player = function () {
   function Player() {
     _classCallCheck(this, Player);
 
-    this.ex = 'player test';
-  }
-
-  _createClass(Player, [{
-    key: 'test',
-    value: function test() {
-      console.log(this.ex);
-    }
-  }]);
-
-  return Player;
-}();
-
-document.addEventListener('DOMContentLoaded', function () {
-  var player = new Player();
-  player.test();
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Player = function () {
-  function Player() {
-    _classCallCheck(this, Player);
-
     //lykill fyrir geymt info í localstorage?
     this.keyName = 'info';
 
@@ -111,17 +84,12 @@ var Video = function () {
       };
       json.send();
     }
-  }, {
-    key: 'process',
-    value: function process(data) {
-      console.log('yo');
-    }
   }]);
 
   return Video;
 }();
 
-function process(data, video) {
+function process(data) {
   var sec = document.querySelectorAll('.video');
   var videos = data.videos;
   var cat = data.categories;
@@ -135,9 +103,14 @@ function process(data, video) {
 
 function make(cat, title) {
   var main = document.querySelector('main');
+
   var section = document.createElement('nav');
   var list = document.createElement('ul');
+  list.classList.add('video');
+  list.classList.add('row');
+
   var header = document.createElement('h2');
+  header.setAttribute('class', 'header header--heading2');
 
   section.appendChild(header);
   section.appendChild(list);
@@ -146,13 +119,13 @@ function make(cat, title) {
     return list.appendChild(movie(x));
   });
 
-  section.classList.add('videos__' + title);
   main.appendChild(section);
 }
 
 function movie(movie) {
   var container = document.createElement('li');
-  container.classList.add('movie');
+  container.classList.add('video__movie');
+  makeGrid(container);
 
   var poster = document.createElement('a');
   poster.classList.add('video__poster');
@@ -183,6 +156,14 @@ function movie(movie) {
   container.appendChild(info);
 
   return container;
+}
+
+function makeGrid(cont) {
+  console.log(cont);
+  cont.classList.add('col');
+  cont.classList.add('col-4');
+  cont.classList.add('col-sm-6');
+  cont.classList.add('col-mm-12');
 }
 
 function timestamp(length) {
