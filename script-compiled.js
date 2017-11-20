@@ -8,13 +8,46 @@ var Player = function () {
   function Player() {
     _classCallCheck(this, Player);
 
-    this.ex = 'player test';
+    //lykill fyrir geymt info í localstorage?
+    this.keyName = 'info';
+
+    this.container = document.querySelector('.container');
+    this.heading = this.container.querySelector('.heading');
+    //finna takka
+    this.prev = this.container.querySelector('.player .prev');
+    this.play = this.container.querySelector('.player .play');
+    this.sound = this.container.querySelector('.player .sound');
+    this.fullscreen = this.container.querySelector('.player .fullscreen');
+    this.next = this.container.querySelector('.player .next');
   }
 
   _createClass(Player, [{
-    key: 'test',
-    value: function test() {
-      console.log(this.ex);
+    key: 'load',
+    value: function load() {
+      var saved = window.localStorage.getItem(this.keyName);
+
+      if (saved) {
+        var parse = JSON.parse(saved);
+        //ath betur hvernig video info er, video er sótt
+        this.create(parse.title, parse.video);
+      }
+    }
+
+    //hugmynd
+
+  }, {
+    key: 'create',
+    value: function create(title, video) {
+      //setja <h1> sem titil myndbands
+      this.heading.appendChild(document.createTextNode(title));
+
+      //Event listener fyrir takka, þarf að búa til þessi föll
+      //geta líka verið nafnlaus föll fyrir einfaldari takkana
+      this.prev.addEventListener('click', this.prevfun.bind(this));
+      this.play.addEventListener('click', this.playfun.bind(this));
+      this.sound.addEventListener('click', this.soundfun.bind(this));
+      this.fullscreen.addEventListener('click', this.fullscreenfun.bind(this));
+      this.next.addEventListener('click', this.nextfun.bind(this));
     }
   }]);
 
@@ -23,7 +56,7 @@ var Player = function () {
 
 document.addEventListener('DOMContentLoaded', function () {
   var player = new Player();
-  player.test();
+  player.load();
 });
 'use strict';
 
@@ -51,17 +84,12 @@ var Video = function () {
       };
       json.send();
     }
-  }, {
-    key: 'process',
-    value: function process(data) {
-      console.log('yo');
-    }
   }]);
 
   return Video;
 }();
 
-function process(data, video) {
+function process(data) {
   var sec = document.querySelectorAll('.video');
   var videos = data.videos;
   var cat = data.categories;
@@ -75,9 +103,14 @@ function process(data, video) {
 
 function make(cat, title) {
   var main = document.querySelector('main');
+
   var section = document.createElement('nav');
   var list = document.createElement('ul');
+  list.classList.add('video');
+  list.classList.add('row');
+
   var header = document.createElement('h2');
+  header.setAttribute('class', 'header header--heading2');
 
   section.appendChild(header);
   section.appendChild(list);
@@ -86,13 +119,13 @@ function make(cat, title) {
     return list.appendChild(movie(x));
   });
 
-  section.classList.add('videos__' + title);
   main.appendChild(section);
 }
 
 function movie(movie) {
   var container = document.createElement('li');
-  container.classList.add('movie');
+  container.classList.add('video__movie');
+  makeGrid(container);
 
   var poster = document.createElement('a');
   poster.classList.add('video__poster');
@@ -123,6 +156,14 @@ function movie(movie) {
   container.appendChild(info);
 
   return container;
+}
+
+function makeGrid(cont) {
+  console.log(cont);
+  cont.classList.add('col');
+  cont.classList.add('col-4');
+  cont.classList.add('col-sm-6');
+  cont.classList.add('col-mm-12');
 }
 
 function timestamp(length) {

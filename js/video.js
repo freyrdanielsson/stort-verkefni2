@@ -14,13 +14,9 @@ class Video {
     };
     json.send();
   }
-
-  process(data){
-    console.log('yo');
-  }
 }
 
-function process(data, video) {
+function process(data) {
  const sec = document.querySelectorAll('.video');
  const videos = data.videos;
  const cat = data.categories;
@@ -34,23 +30,27 @@ function process(data, video) {
 
 function make(cat, title) {
   const main = document.querySelector('main');
+
   const section = document.createElement('nav');
   const list = document.createElement('ul');
+  list.classList.add('video');
+  list.classList.add('row');
+
   const header = document.createElement('h2');
+  header.setAttribute('class', 'header header--heading2');
 
   section.appendChild(header);
   section.appendChild(list);
   header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')))
   Object.values(cat).forEach(x => list.appendChild(movie(x)));
 
-  section.classList.add('videos__'+title);
   main.appendChild(section);
 }
 
 function movie(movie) {
   const container = document.createElement('li');
-  container.classList.add('movie');
-
+  container.classList.add('video__movie');
+  makeGrid(container);
 
   const poster = document.createElement('a');
   poster.classList.add('video__poster');
@@ -81,6 +81,14 @@ function movie(movie) {
   container.appendChild(info);
 
   return container;
+}
+
+function makeGrid(cont) {
+  console.log(cont);
+  cont.classList.add('col');
+  cont.classList.add('col-4');
+  cont.classList.add('col-sm-6');
+  cont.classList.add('col-mm-12');
 }
 
 function timestamp(length) {
