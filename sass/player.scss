@@ -20,12 +20,8 @@
     margin: 40px;
 
     &__button {
-      background-color: Transparent;
-      border: 0;
-
-      .text {
-        color: #fff;
-      }
+      color: #fff;
+      text-decoration: none;
     }
   }
 }
