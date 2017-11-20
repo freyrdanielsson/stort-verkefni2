@@ -51,9 +51,6 @@ var Player = function () {
   _createClass(Player, [{
     key: 'load',
     value: function load() {
-      console.log(this.container);
-      console.log(this.player);
-
       var saved = window.localStorage.getItem(this.keyName);
 
       if (saved) {

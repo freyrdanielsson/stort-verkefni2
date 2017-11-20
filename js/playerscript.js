@@ -16,9 +16,6 @@ class Player {
   }
 
   load() {
-    console.log(this.container);
-    console.log(this.player);
-
     const saved = window.localStorage.getItem(this.keyName);
 
     if (saved){
@@ -45,10 +42,7 @@ class Player {
 
 }
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
   const player = new Player();
   player.load();
-
 });
