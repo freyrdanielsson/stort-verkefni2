@@ -18,8 +18,6 @@ class Video {
   process(data){
     console.log('yo');
   }
-
-
 }
 
 function process(data, video) {
@@ -36,23 +34,27 @@ function process(data, video) {
 
 function make(cat, title) {
   const main = document.querySelector('main');
-  const section = document.createElement('div');
+  const section = document.createElement('nav');
+  const list = document.createElement('ul');
   const header = document.createElement('h2');
 
   section.appendChild(header);
+  section.appendChild(list);
   header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')))
-  Object.values(cat).forEach(x => section.appendChild(movie(x)));
+  Object.values(cat).forEach(x => list.appendChild(movie(x)));
 
   section.classList.add('videos__'+title);
   main.appendChild(section);
 }
 
 function movie(movie) {
-  const container = document.createElement('div');
+  const container = document.createElement('li');
   container.classList.add('movie');
 
-  const poster = document.createElement('div');
+
+  const poster = document.createElement('a');
   poster.classList.add('video__poster');
+  poster.setAttribute('href', 'player.html?id=' + movie.id);
 
   const img = document.createElement('img');
   img.setAttribute('src', movie.poster);
