@@ -75,13 +75,15 @@ function process(data, video) {
 
 function make(cat, title) {
   var main = document.querySelector('main');
-  var section = document.createElement('div');
+  var section = document.createElement('nav');
+  var list = document.createElement('ul');
   var header = document.createElement('h2');
 
   section.appendChild(header);
+  section.appendChild(list);
   header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')));
   Object.values(cat).forEach(function (x) {
-    return section.appendChild(movie(x));
+    return list.appendChild(movie(x));
   });
 
   section.classList.add('videos__' + title);
@@ -89,11 +91,12 @@ function make(cat, title) {
 }
 
 function movie(movie) {
-  var container = document.createElement('div');
+  var container = document.createElement('li');
   container.classList.add('movie');
 
-  var poster = document.createElement('div');
+  var poster = document.createElement('a');
   poster.classList.add('video__poster');
+  poster.setAttribute('href', 'player.html?id=' + movie.id);
 
   var img = document.createElement('img');
   img.setAttribute('src', movie.poster);
