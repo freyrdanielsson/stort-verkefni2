@@ -224,135 +224,202 @@ var Video = function () {
 
     //local .json file
     this.API_URL = '/js/videos.json';
+    getData(this.API_URL, this);
   }
 
   _createClass(Video, [{
-    key: 'load',
-    value: function load() {
-      var json = new XMLHttpRequest();
-      json.open('GET', this.API_URL, true);
+    key: 'run',
+    value: function run(data) {
+      this.data = data;
+      console.log(this.data);
 
-      json.onload = function () {
-        this.data = JSON.parse(json.response);
-        process(this.data);
-      };
-      json.send();
+      this.process(this.data);
+    }
+  }, {
+    key: 'process',
+    value: function process(data) {
+      var sec = document.querySelectorAll('.video');
+      var videos = data.videos;
+      var cat = data.categories;
+
+      var sorted = this.sort(videos, cat);
+      console.log(sorted);
+      this.make(sorted.nyleg, 'Nýleg_myndbönd');
+      this.make(sorted.kennslu, 'Kennslumyndbönd');
+      this.make(sorted.gaman, 'Skemmtimyndbönd');
+    }
+  }, {
+    key: 'make',
+    value: function make(cat, title) {
+      var _this = this;
+
+      var main = document.querySelector('main');
+
+      var section = document.createElement('nav');
+      var list = document.createElement('ul');
+      list.classList.add('video');
+      list.classList.add('row');
+
+      var header = document.createElement('h2');
+      header.setAttribute('class', 'header header--heading2');
+
+      section.appendChild(header);
+      section.appendChild(list);
+      header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')));
+      Object.values(cat).forEach(function (x) {
+        return list.appendChild(_this.movie(x));
+      });
+
+      main.appendChild(section);
+    }
+  }, {
+    key: 'movie',
+    value: function movie(_movie) {
+      var container = document.createElement('li');
+      container.classList.add('video__movie');
+      this.makeGrid(container);
+
+      var poster = document.createElement('a');
+      poster.classList.add('video__poster');
+      poster.setAttribute('href', 'player.html?id=' + _movie.id);
+
+      var img = document.createElement('img');
+      img.setAttribute('src', _movie.poster);
+
+      var length = document.createElement('div');
+      length.classList.add('video__length');
+      length.appendChild(document.createTextNode(this.timestamp(_movie.duration)));
+
+      var title = document.createElement('h2');
+      title.classList.add('video__title');
+      title.appendChild(document.createTextNode(_movie.title));
+
+      var info = document.createElement('div');
+      info.classList.add('video__info');
+
+      // TODO: gera fall fyrir movie.created
+      info.appendChild(title);
+      info.appendChild(document.createTextNode(this.toDate(_movie.created)));
+
+      poster.appendChild(img);
+      poster.appendChild(length);
+
+      container.appendChild(poster);
+      container.appendChild(info);
+
+      return container;
+    }
+  }, {
+    key: 'makeGrid',
+    value: function makeGrid(cont) {
+      cont.classList.add('col');
+      cont.classList.add('col-4');
+      cont.classList.add('col-sm-6');
+      cont.classList.add('col-mm-12');
+    }
+  }, {
+    key: 'timestamp',
+    value: function timestamp(length) {
+      var min = Math.floor(length / 60);
+      var sec = length - min * 60;
+
+      if (sec < 10) {
+        return min + ':0' + sec;
+      } else {
+        return min + ':' + sec;
+      }
+    }
+  }, {
+    key: 'toDate',
+    value: function toDate(date) {
+      var made = new Date(date);
+      var now = new Date();
+      return this.dateHowLong(now - made);
+    }
+  }, {
+    key: 'dateHowLong',
+    value: function dateHowLong(time) {
+      var secs = time / 1000;
+      var year = Math.floor(secs / (365 * 24 * 60 * 60));
+      var month = Math.floor(secs / (30 * 24 * 60 * 60));
+      var week = Math.floor(secs / (7 * 24 * 60 * 60));
+      var day = Math.floor(secs / (24 * 60 * 60));
+
+      if (year >= 1) {
+        if (year == 1) {
+          return 'fyrir ' + year + ' \xE1ri s\xED\xF0an';
+        } else return 'fyrir ' + year + ' \xE1rum s\xED\xF0an';
+      } else if (month >= 1) {
+        if (month == 1) {
+          return 'fyrir ' + month + ' m\xE1nu\xF0i s\xED\xF0an';
+        } else return 'fyrir ' + month + ' m\xE1nu\xF0um s\xED\xF0an';
+      } else if (week >= 1) {
+        if (week == 1) {
+          return 'fyrir ' + week + ' viku s\xED\xF0an';
+        } else return 'fyrir ' + week + ' vikum s\xED\xF0an';
+      } else if (day >= 1) {
+        if (day == 1) {
+          return 'fyrir ' + day + ' degi s\xED\xF0an';
+        } else return 'fyrir ' + day + ' d\xF6gum s\xED\xF0an';
+      } else {
+        if (hour == 1) {
+          return 'fyrir ' + hour + ' klukkustund s\xED\xF0an';
+        } else return 'fyrir ' + hour + ' klukkustundum s\xED\xF0an';
+      }
+    }
+  }, {
+    key: 'sort',
+    value: function sort(videos, cat) {
+      // TODO: reyna koma þessu í forEach eða álíka
+      var nyleg = videos.filter(function (categorie) {
+        return cat[0].videos.includes(categorie.id);
+      });
+
+      var kennslu = videos.filter(function (categorie) {
+        return cat[1].videos.includes(categorie.id);
+      });
+
+      var gaman = videos.filter(function (categorie) {
+        return cat[2].videos.includes(categorie.id);
+      });
+
+      return { nyleg: nyleg, kennslu: kennslu, gaman: gaman };
     }
   }]);
 
   return Video;
 }();
 
-function process(data) {
-  var sec = document.querySelectorAll('.video');
-  var videos = data.videos;
-  var cat = data.categories;
+function getData(url, video) {
+  var json = new XMLHttpRequest();
+  json.open('GET', url, true);
+  json.onload = function () {
+    if (json.status < 400 && json.status >= 200) {
+      video.run(JSON.parse(json.response));
+    } else {
 
-  var sorted = sort(videos, cat);
-  console.log(sorted);
-  make(sorted.nyleg, 'Nýleg_myndbönd');
-  make(sorted.kennslu, 'Kennslumyndbönd');
-  make(sorted.gaman, 'Skemmtimyndbönd');
+      console.error('villa', json);
+      errMsg();
+    }
+  };
+
+  json.onerror = function () {
+    errMsg();
+  };
+
+  json.send();
 }
 
-function make(cat, title) {
+function errMsg() {
   var main = document.querySelector('main');
-
-  var section = document.createElement('nav');
-  var list = document.createElement('ul');
-  list.classList.add('video');
-  list.classList.add('row');
-
-  var header = document.createElement('h2');
-  header.setAttribute('class', 'header header--heading2');
-
-  section.appendChild(header);
-  section.appendChild(list);
-  header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')));
-  Object.values(cat).forEach(function (x) {
-    return list.appendChild(movie(x));
-  });
-
-  main.appendChild(section);
-}
-
-function movie(movie) {
-  var container = document.createElement('li');
-  container.classList.add('video__movie');
-  makeGrid(container);
-
-  var poster = document.createElement('a');
-  poster.classList.add('video__poster');
-  poster.setAttribute('href', 'player.html?id=' + movie.id);
-
-  var img = document.createElement('img');
-  img.setAttribute('src', movie.poster);
-
-  var length = document.createElement('div');
-  length.classList.add('video__length');
-  length.appendChild(document.createTextNode(timestamp(movie.duration)));
-
-  var title = document.createElement('h2');
-  title.classList.add('movie__title');
-  title.appendChild(document.createTextNode(movie.title));
-
-  var info = document.createElement('div');
-  info.classList.add('video__info');
-
-  // TODO: gera fall fyrir movie.created
-  info.appendChild(title);
-  info.appendChild(document.createTextNode(movie.created));
-
-  poster.appendChild(img);
-  poster.appendChild(length);
-
-  container.appendChild(poster);
-  container.appendChild(info);
-
-  return container;
-}
-
-function makeGrid(cont) {
-  console.log(cont);
-  cont.classList.add('col');
-  cont.classList.add('col-4');
-  cont.classList.add('col-sm-6');
-  cont.classList.add('col-mm-12');
-}
-
-function timestamp(length) {
-  var min = Math.floor(length / 60);
-  console.log(min);
-  var sec = length - min * 60;
-
-  if (sec < 10) {
-    return min + ':0' + sec;
-  } else {
-    return min + ':' + sec;
-  }
-}
-
-function sort(videos, cat) {
-
-  // TODO: reyna koma þessu í forEach eða álíka
-  var nyleg = videos.filter(function (categorie) {
-    return cat[0].videos.includes(categorie.id);
-  });
-
-  var kennslu = videos.filter(function (categorie) {
-    return cat[1].videos.includes(categorie.id);
-  });
-
-  var gaman = videos.filter(function (categorie) {
-    return cat[2].videos.includes(categorie.id);
-  });
-
-  return { nyleg: nyleg, kennslu: kennslu, gaman: gaman };
+  var error = document.createElement('div');
+  error.classList.add('error');
+  error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
+  main.appendChild(error);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
   var video = new Video();
-  video.load();
 });
 
 //# sourceMappingURL=script-compiled.js.map

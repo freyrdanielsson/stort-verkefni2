@@ -46,6 +46,29 @@
 .video {
   display: flex;
   color: #eee; }
+  .video__poster {
+    position: relative;
+    color: inherit;
+    text-decoration: none; }
+  .video__length {
+    position: absolute;
+    right: 4px;
+    bottom: 14px;
+    padding: 1px 4px;
+    font-size: 0.8em;
+    background-color: rgba(0, 0, 0, 0.5); }
+  .video__title {
+    max-width: 85%;
+    max-height: 1.5em;
+    overflow: hidden;
+    font-size: 1.2em; }
+
+.video::after {
+  width: 75%;
+  height: 1px;
+  margin: 20px auto;
+  content: "";
+  background: #eee; }
 
 .row {
   display: flex;
@@ -67,6 +90,12 @@
   @media (max-width: 500px) {
     .col-mm-12 {
       width: 100%; } }
+
+.error {
+  display: flex;
+  margin: 50vh;
+  color: #fff;
+  justify-content: center; }
 
 /* setjum box-sizing: border-box; á allt */
 html {
