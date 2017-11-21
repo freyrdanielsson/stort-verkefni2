@@ -1,32 +1,5 @@
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Player = function () {
-  function Player() {
-    _classCallCheck(this, Player);
-
-    this.ex = 'player test';
-  }
-
-  _createClass(Player, [{
-    key: 'test',
-    value: function test() {
-      console.log(this.ex);
-    }
-  }]);
-
-  return Player;
-}();
-
-document.addEventListener('DOMContentLoaded', function () {
-  var player = new Player();
-  player.test();
-});
-'use strict';
-
 /*
 class Player {
   constructor(data) {
@@ -74,6 +47,7 @@ class Player {
     //(this.fullscreen).addEventListener('click', this.fullscreenfun.bind(this));
     (this.next).addEventListener('click', function(){setTime(3);} ,false);
 
+
   }
 
   setTime(time) {
@@ -117,23 +91,46 @@ function init(data) {
 
   var videoinfo = videofind(data, window.location.search.charAt(4));
   var container = document.querySelector('.container');
+  var videoContainer = container.querySelector('.video');
+  videoContainer.classList.add('row');
+
   //finna takkanna líka inní fallinu, breyta html þá pínu
   var playButton = container.querySelectorAll('.player .player__button')[1].querySelector('.play');
   var soundButton = container.querySelectorAll('.player .player__button')[2].querySelector('.sound');
+  //Er verið að play-a í fyrsta skipti
+  var played = true;
 
   //Setja titil efst á síðu
   var heading = container.querySelector('.heading');
   heading.appendChild(document.createTextNode(videoinfo.title));
 
-  //setja myndband inn
+  //Búa til myndbandshlut sem við setjum inn þegar ýtt er á play í fyrsta skipti
   var video = document.createElement('video');
-  //Ath sleppa þessum og nota css til að ákvaðra stærð
-  video.setAttribute('width', '500');
-  video.setAttribute('height', '500');
+
+  //TODO
+  video.setAttribute('class', 'hide');
+  videoContainer.appendChild(video);
+
   var source = document.createElement('source');
   source.setAttribute('src', videoinfo.video);
   video.appendChild(source);
-  container.querySelector('.video').appendChild(video);
+
+  //setjum poster inn í byrjun
+  var poster = document.createElement('img');
+  poster.setAttribute('src', videoinfo.poster);
+  poster.setAttribute('class', 'vid col col-12');
+  videoContainer.appendChild(poster);
+
+  //setjum play takka á poster
+  var playImg = document.createElement('img');
+  playImg.setAttribute('src', 'img/play.svg');
+  playImg.setAttribute('class', 'playImg');
+  videoContainer.appendChild(playImg);
+
+  //prufa
+  var overlay = document.createElement('div');
+  overlay.setAttribute('class', 'overlay col col-12');
+  videoContainer.appendChild(overlay);
 
   //Sækja takka
   var prev = container.querySelector('.player .prev');
@@ -153,6 +150,10 @@ function init(data) {
     setTime(3);
   });
 
+  //atburðarhandler á skjá
+  overlay.addEventListener('click', playPause);
+  video.addEventListener('click', playPause);
+
   function fullscr() {
     video.webkitRequestFullscreen();
   }
@@ -167,11 +168,24 @@ function init(data) {
     }
   }
 
+  //gaura aukafalla til að sleppa við línur gerðar tvisvar
   function playPause() {
-    if (video.paused) {
+    if (played) {
+      playImg.setAttribute('class', 'hide');
+      videoContainer.removeChild(poster);
+      video.setAttribute('class', 'vid col col-12');
       playButton.setAttribute('src', 'img/pause.svg');
+      overlay.setAttribute('class', 'hide');
+      played = false;
+      video.play();
+    } else if (video.paused) {
+      playImg.setAttribute('class', 'hide');
+      playButton.setAttribute('src', 'img/pause.svg');
+      overlay.setAttribute('class', 'hide');
       video.play();
     } else {
+      overlay.setAttribute('class', 'overlay col col-12');
+      playImg.setAttribute('class', 'playImg');
       playButton.setAttribute('src', 'img/play.svg');
       video.pause();
     }

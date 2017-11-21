@@ -79,8 +79,8 @@ function load() {
   json.open('GET', '/js/videos.json', true);
 
   json.onload = function() {
-    const jsondata = JSON.parse(json.response);
-    init(jsondata.videos);
+      const jsondata = JSON.parse(json.response);
+      init(jsondata.videos);
   };
   json.send();
 }
@@ -89,23 +89,48 @@ function init(data) {
 
   const videoinfo = videofind(data,  (window.location.search).charAt(4));
   const container =  document.querySelector('.container');
+  const videoContainer = container.querySelector('.video');
+  videoContainer.classList.add('row');
+
   //finna takkanna líka inní fallinu, breyta html þá pínu
   const playButton = (container.querySelectorAll('.player .player__button')[1]).querySelector('.play');
   const soundButton = (container.querySelectorAll('.player .player__button')[2]).querySelector('.sound');
+  //Er verið að play-a í fyrsta skipti
+  let played = true;
 
   //Setja titil efst á síðu
   const heading = container.querySelector('.heading');
   heading.appendChild(document.createTextNode(videoinfo.title));
 
-  //setja myndband inn
+  //Búa til myndbandshlut sem við setjum inn þegar ýtt er á play í fyrsta skipti
   const video = document.createElement('video');
-  //Ath sleppa þessum og nota css til að ákvaðra stærð
-  video.setAttribute('width',  '500');
-  video.setAttribute('height',  '500');
+
+  //TODO
+  video.setAttribute('class', 'hide');
+  videoContainer.appendChild(video);
+
   const source = document.createElement('source');
   source.setAttribute('src',  videoinfo.video);
   video.appendChild(source);
-  (container.querySelector('.video')).appendChild(video);
+
+  //setjum poster inn í byrjun
+  const poster = document.createElement('img');
+  poster.setAttribute('src', videoinfo.poster);
+  poster.setAttribute('class', 'vid col col-12');
+  videoContainer.appendChild(poster);
+
+  //setjum play takka á poster
+  const playImg = document.createElement('img');
+  playImg.setAttribute('src', 'img/play.svg');
+  playImg.setAttribute('class', 'playImg');
+  videoContainer.appendChild(playImg);
+
+
+  //prufa
+  const overlay = document.createElement('div');
+  overlay.setAttribute('class', 'overlay col col-12');
+  videoContainer.appendChild(overlay);
+
 
 
   //Sækja takka
@@ -121,6 +146,10 @@ function init(data) {
   sound.addEventListener('click', soundMute);
   fullscreen.addEventListener('click', fullscr);
   next.addEventListener('click', function () { setTime (3); });
+
+  //atburðarhandler á skjá
+  overlay.addEventListener('click', playPause);
+  video.addEventListener('click', playPause);
 
 
   function fullscr() {
@@ -138,11 +167,25 @@ function init(data) {
     }
   }
 
+//gaura aukafalla til að sleppa við línur gerðar tvisvar
   function playPause() {
-    if (video.paused) {
+    if(played) {
+      playImg.setAttribute('class', 'hide');
+      videoContainer.removeChild(poster);
+      video.setAttribute('class', 'vid col col-12');
       playButton.setAttribute('src', 'img/pause.svg');
+      overlay.setAttribute('class', 'hide');
+      played = false;
+      video.play();
+
+    }else if (video.paused) {
+      playImg.setAttribute('class', 'hide');
+      playButton.setAttribute('src', 'img/pause.svg');
+      overlay.setAttribute('class', 'hide');
       video.play();
     } else {
+      overlay.setAttribute('class', 'overlay col col-12');
+      playImg.setAttribute('class', 'playImg');
       playButton.setAttribute('src', 'img/play.svg');
       video.pause();
     }
@@ -167,6 +210,7 @@ function init(data) {
   }
 
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
   load();
