@@ -27,63 +27,177 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+/*
+class Player {
+  constructor(data) {
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Player = function () {
-  function Player() {
-    _classCallCheck(this, Player);
-
-    //lykill fyrir geymt info í localstorage?
-    this.keyName = 'info';
-
+    this.data = data;
     this.container = document.querySelector('.container');
-    this.heading = this.container.querySelector('.heading');
+    this.heading = (this.container).querySelector('.heading');
+    this.videocontainer = (this.container).querySelector('.video');
     //finna takka
-    this.prev = this.container.querySelector('.player .prev');
-    this.play = this.container.querySelector('.player .play');
-    this.sound = this.container.querySelector('.player .sound');
-    this.fullscreen = this.container.querySelector('.player .fullscreen');
-    this.next = this.container.querySelector('.player .next');
+    this.prev = (this.container).querySelector('.player .prev');
+    this.play = (this.container).querySelector('.player .play');
+    this.sound = (this.container).querySelector('.player .sound');
+    this.fullscreen = (this.container).querySelector('.player .fullscreen');
+    this.next = (this.container).querySelector('.player .next');
+
   }
 
-  _createClass(Player, [{
-    key: 'load',
-    value: function load() {
-      var saved = window.localStorage.getItem(this.keyName);
+  playfun() {
+    this.video = this.process(this.data);
+    this.create();
+  }
 
-      if (saved) {
-        var parse = JSON.parse(saved);
-        //ath betur hvernig video info er, video er sótt
-        this.create(parse.title, parse.video);
+//hugmynd
+  create() {
+
+    //setja <h1> sem titil myndbands
+    (this.heading).appendChild(document.createTextNode((this.video).title));
+
+    this.videoElement = document.createElement('video');
+    (this.videoElement).setAttribute('width',  '320');
+    (this.videoElement).setAttribute('height',  '240');
+    const source = document.createElement('source');
+    source.setAttribute('src',  (this.video).video);
+    (this.videoElement).appendChild(source);
+    (this.videocontainer).appendChild((this.videoElement));
+
+    //video playast automatically i byrjun, breyta?
+    (this.videoElement).play();
+
+    //Event listener fyrir takka, þarf að búa til þessi föll
+
+    (this.prev).addEventListener('click', this.setTime(-3) ,false);
+    //(this.play).addEventListener('click', this.playfun.bind(this));
+    //(this.sound).addEventListener('click', this.soundfun.bind(this));
+    //(this.fullscreen).addEventListener('click', this.fullscreenfun.bind(this));
+    (this.next).addEventListener('click', function(){setTime(3);} ,false);
+
+
+  }
+
+  setTime(time) {
+    try {
+      (this.videoElement).currentTime += time;
+    } catch (error) {
+      errorMessage('No video loaded');
+    }
+  }
+
+  process(data){
+    const videos = data.videos;
+    const id = (window.location.search).charAt(4);
+
+    return this.videofind(videos, id);
+  }
+
+  videofind(videos, id) {
+    //nota sniðugu loopuna, ekki þessa
+    for(var i = 0; i<videos.length; i++){
+      if(videos[i].id == id) {
+        return videos[i];
       }
     }
+  }
+}
+*/
 
-    //hugmynd
+function load() {
+  var json = new XMLHttpRequest();
+  json.open('GET', '/js/videos.json', true);
 
-  }, {
-    key: 'create',
-    value: function create(title, video) {
-      //setja <h1> sem titil myndbands
-      this.heading.appendChild(document.createTextNode(title));
+  json.onload = function () {
+    var jsondata = JSON.parse(json.response);
+    init(jsondata.videos);
+  };
+  json.send();
+}
 
-      //Event listener fyrir takka, þarf að búa til þessi föll
-      //geta líka verið nafnlaus föll fyrir einfaldari takkana
-      this.prev.addEventListener('click', this.prevfun.bind(this));
-      this.play.addEventListener('click', this.playfun.bind(this));
-      this.sound.addEventListener('click', this.soundfun.bind(this));
-      this.fullscreen.addEventListener('click', this.fullscreenfun.bind(this));
-      this.next.addEventListener('click', this.nextfun.bind(this));
+function init(data) {
+
+  var videoinfo = videofind(data, window.location.search.charAt(4));
+  var container = document.querySelector('.container');
+  //finna takkanna líka inní fallinu, breyta html þá pínu
+  var playButton = container.querySelectorAll('.player .player__button')[1].querySelector('.play');
+  var soundButton = container.querySelectorAll('.player .player__button')[2].querySelector('.sound');
+
+  //Setja titil efst á síðu
+  var heading = container.querySelector('.heading');
+  heading.appendChild(document.createTextNode(videoinfo.title));
+
+  //setja myndband inn
+  var video = document.createElement('video');
+  //Ath sleppa þessum og nota css til að ákvaðra stærð
+  video.setAttribute('width', '500');
+  video.setAttribute('height', '500');
+  var source = document.createElement('source');
+  source.setAttribute('src', videoinfo.video);
+  video.appendChild(source);
+  container.querySelector('.video').appendChild(video);
+
+  //Sækja takka
+  var prev = container.querySelector('.player .prev');
+  var play = container.querySelector('.player .play');
+  var sound = container.querySelector('.player .sound');
+  var fullscreen = container.querySelector('.player .fullscreen');
+  var next = container.querySelector('.player .next');
+
+  //atburðahandler á takka
+  prev.addEventListener('click', function () {
+    setTime(-3);
+  });
+  play.addEventListener('click', playPause);
+  sound.addEventListener('click', soundMute);
+  fullscreen.addEventListener('click', fullscr);
+  next.addEventListener('click', function () {
+    setTime(3);
+  });
+
+  function fullscr() {
+    video.webkitRequestFullscreen();
+  }
+
+  function soundMute() {
+    if (video.muted) {
+      soundButton.setAttribute('src', 'img/mute.svg');
+      video.muted = false;
+    } else {
+      soundButton.setAttribute('src', 'img/unmute.svg');
+      video.muted = true;
     }
-  }]);
+  }
 
-  return Player;
-}();
+  function playPause() {
+    if (video.paused) {
+      playButton.setAttribute('src', 'img/pause.svg');
+      video.play();
+    } else {
+      playButton.setAttribute('src', 'img/play.svg');
+      video.pause();
+    }
+  }
+
+  function setTime(time) {
+    try {
+      video.currentTime += time;
+    } catch (error) {
+      errorMessage('No video loaded');
+    }
+  }
+
+  function videofind(videos, id) {
+    //nota sniðugu loopuna, ekki þessa
+    for (var i = 0; i < videos.length; i++) {
+      if (videos[i].id == id) {
+        return videos[i];
+      }
+    }
+  }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
-  var player = new Player();
-  player.load();
+  load();
 });
 'use strict';
 
@@ -111,17 +225,12 @@ var Video = function () {
       };
       json.send();
     }
-  }, {
-    key: 'process',
-    value: function process(data) {
-      console.log('yo');
-    }
   }]);
 
   return Video;
 }();
 
-function process(data, video) {
+function process(data) {
   var sec = document.querySelectorAll('.video');
   var videos = data.videos;
   var cat = data.categories;

@@ -14,13 +14,9 @@ class Video {
     };
     json.send();
   }
-
-  process(data){
-    console.log('yo');
-  }
 }
 
-function process(data, video) {
+function process(data) {
  const sec = document.querySelectorAll('.video');
  const videos = data.videos;
  const cat = data.categories;
