@@ -4,10 +4,13 @@
   padding: 40px;
   flex-direction: column;
   align-items: center; }
+  .container .heading {
+    margin-bottom: 20px;
+    color: #fff; }
   .container .player {
     display: flex;
     max-width: 250px;
-    margin: 40px; }
+    margin: 5px 40px; }
     .container .player__button {
       margin-right: 10px;
       background-color: Transparent;
@@ -77,4 +80,6 @@ main {
   overflow-x: hidden; }
   @media (min-width: 1200px) {
     main {
+
       margin: 0 auto; } }
+
