@@ -7,6 +7,22 @@
   .container .heading {
     margin-bottom: 20px;
     color: #fff; }
+  .container .video {
+    position: relative;
+    align-items: center;
+    justify-content: center; }
+    .container .video .vid {
+      padding: 0; }
+    .container .video .playImg {
+      position: absolute;
+      max-width: 40px; }
+    .container .video .overlay {
+      position: absolute;
+      height: 100%;
+      padding: 0;
+      background-color: rgba(0, 0, 0, 0.2); }
+    .container .video .hide {
+      display: none; }
   .container .player {
     display: flex;
     max-width: 250px;
@@ -66,6 +82,8 @@
   padding-left: 10px; }
   .col-4 {
     width: 33.33333%; }
+  .col-12 {
+    width: 100%; }
   @media (max-width: 1000px) {
     .col-sm-6 {
       width: 50%; } }

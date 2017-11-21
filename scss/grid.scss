@@ -20,6 +20,10 @@
     @include columns(4);
   }
 
+  &-12 {
+    @include columns(12);
+  }
+
   &-sm {
     @media (max-width: 1000px) {
       &-6 {

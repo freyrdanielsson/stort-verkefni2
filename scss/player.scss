@@ -9,6 +9,33 @@
     color: #fff;
   }
 
+  .video {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+
+    .vid {
+      padding: 0;
+    }
+
+    .playImg {
+      position: absolute;
+      max-width: 40px;
+    }
+
+    .overlay {
+      position: absolute;
+      height: 100%;
+      padding: 0;
+      background-color: rgba(0, 0, 0, 0.2);
+
+    }
+
+    .hide {
+      display: none;
+    }
+  }
+
   .player {
     display: flex;
     max-width: 250px;
