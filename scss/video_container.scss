@@ -1,4 +1,34 @@
 .video {
   display: flex;
   color: #eee;
+
+  &__poster {
+    position: relative;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &__length {
+    position: absolute;
+    right: 4px;
+    bottom: 14px;
+    padding: 1px 4px;
+    font-size: 0.8em;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  &__title {
+    max-width: 85%;
+    max-height: 1.5em;
+    overflow: hidden;
+    font-size: 1.2em;
+  }
+}
+
+.video::after {
+  width: 75%;
+  height: 1px;
+  margin: 20px auto;
+  content: "";
+  background: #eee;
 }

@@ -253,7 +253,7 @@ function movie(movie) {
   length.appendChild(document.createTextNode(timestamp(movie.duration)));
 
   var title = document.createElement('h2');
-  title.classList.add('movie__title');
+  title.classList.add('video__title');
   title.appendChild(document.createTextNode(movie.title));
 
   var info = document.createElement('div');
