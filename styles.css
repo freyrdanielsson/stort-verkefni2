@@ -73,6 +73,12 @@
     .col-mm-12 {
       width: 100%; } }
 
+.error {
+  display: flex;
+  margin: 50vh;
+  color: #fff;
+  justify-content: center; }
+
 /* setjum box-sizing: border-box; á allt */
 html {
   /* stylelint-disable-line */
