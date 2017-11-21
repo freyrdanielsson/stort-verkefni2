@@ -74,7 +74,6 @@ class Player {
     //(this.fullscreen).addEventListener('click', this.fullscreenfun.bind(this));
     (this.next).addEventListener('click', function(){setTime(3);} ,false);
 
-
   }
 
   setTime(time) {
@@ -244,9 +243,14 @@ function process(data) {
 
 function make(cat, title) {
   var main = document.querySelector('main');
+
   var section = document.createElement('nav');
   var list = document.createElement('ul');
+  list.classList.add('video');
+  list.classList.add('row');
+
   var header = document.createElement('h2');
+  header.setAttribute('class', 'header header--heading2');
 
   section.appendChild(header);
   section.appendChild(list);
@@ -255,13 +259,13 @@ function make(cat, title) {
     return list.appendChild(movie(x));
   });
 
-  section.classList.add('videos__' + title);
   main.appendChild(section);
 }
 
 function movie(movie) {
   var container = document.createElement('li');
-  container.classList.add('movie');
+  container.classList.add('video__movie');
+  makeGrid(container);
 
   var poster = document.createElement('a');
   poster.classList.add('video__poster');
@@ -292,6 +296,14 @@ function movie(movie) {
   container.appendChild(info);
 
   return container;
+}
+
+function makeGrid(cont) {
+  console.log(cont);
+  cont.classList.add('col');
+  cont.classList.add('col-4');
+  cont.classList.add('col-sm-6');
+  cont.classList.add('col-mm-12');
 }
 
 function timestamp(length) {
