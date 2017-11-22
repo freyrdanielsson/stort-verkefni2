@@ -89,8 +89,8 @@ function init(data) {
 
   const videoinfo = videofind(data,  (window.location.search).charAt(4));
   const container =  document.querySelector('.container');
-  const videoContainer = container.querySelector('.video');
-  videoContainer.setAttribute('class', 'video');
+  const videoContainer = container.querySelector('.videoContainer');
+  //videoContainer.setAttribute('class', 'video');
   //col col-12
 
   //finna takkanna líka inní fallinu, breyta html þá pínu
@@ -106,13 +106,9 @@ function init(data) {
   //Búa til myndbandshlut sem við setjum inn þegar ýtt er á play í fyrsta skipti
   const video = document.createElement('video');
 
-  //TODO
   video.setAttribute('class', 'hide');
+  video.setAttribute('src', videoinfo.video);
   videoContainer.appendChild(video);
-
-  const source = document.createElement('source');
-  source.setAttribute('src',  videoinfo.video);
-  video.appendChild(source);
 
   //setjum poster inn í byrjun
   const poster = document.createElement('img');

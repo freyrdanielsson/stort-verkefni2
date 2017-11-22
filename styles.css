@@ -7,27 +7,27 @@
   .container .heading {
     margin-bottom: 20px;
     color: #fff; }
-  .container .video {
+  .container .videoContainer {
     position: relative;
+    display: flex;
     align-items: center;
     justify-content: center;
     width: 90%;
-    max-width: 150vh;
     padding: 0; }
-    .container .video .vid {
+    .container .videoContainer .vid {
       width: 100%;
       min-width: 100%;
       min-height: 100%; }
-    .container .video .playImg {
+    .container .videoContainer .playImg {
       position: absolute;
       max-width: 40px; }
-    .container .video .overlay {
+    .container .videoContainer .overlay {
       position: absolute;
       min-width: 100%;
       min-height: 100%;
       padding: 0;
       background-color: rgba(0, 0, 0, 0.2); }
-    .container .video .hide {
+    .container .videoContainer .hide {
       display: none; }
   .container .player {
     display: flex;
