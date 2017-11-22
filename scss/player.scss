@@ -1,11 +1,12 @@
 .container {
   display: flex;
-  padding: 40px;
+  padding: 2 * $gutter;
+  padding-top: 0.5 * $gutter;
   flex-direction: column;
   align-items: center;
 
   .heading {
-    margin-bottom: 20px;
+    margin-bottom: $gutter;
     color: #fff;
   }
 
@@ -14,18 +15,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 90%;
+    width: 80vw;
+    max-width: 800px;
     padding: 0;
 
     .vid {
       width: 100%;
       min-width: 100%;
+      height: 100%;
       min-height: 100%;
     }
 
     .playImg {
       position: absolute;
-      max-width: 40px;
+      max-width: 2 * $gutter;
     }
 
     .overlay {
@@ -44,7 +47,7 @@
   .player {
     display: flex;
     max-width: 250px;
-    margin: 5px 40px;
+    margin: 0.5 * $gutter;
 
     &__button {
       margin-right: 10px;
@@ -54,7 +57,7 @@
   }
 
   .back {
-    margin: 40px;
+    margin: $gutter;
 
     &__button {
       color: #fff;

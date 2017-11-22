@@ -2,6 +2,7 @@
 .container {
   display: flex;
   padding: 40px;
+  padding-top: 10px;
   flex-direction: column;
   align-items: center; }
   .container .heading {
@@ -12,11 +13,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 90%;
+    width: 80vw;
+    max-width: 800px;
     padding: 0; }
     .container .videoContainer .vid {
       width: 100%;
       min-width: 100%;
+      height: 100%;
       min-height: 100%; }
     .container .videoContainer .playImg {
       position: absolute;
@@ -32,13 +35,13 @@
   .container .player {
     display: flex;
     max-width: 250px;
-    margin: 5px 40px; }
+    margin: 10px; }
     .container .player__button {
       margin-right: 10px;
       background-color: Transparent;
       border: 0; }
   .container .back {
-    margin: 40px; }
+    margin: 20px; }
     .container .back__button {
       color: #fff;
       text-decoration: none; }
