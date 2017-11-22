@@ -10,15 +10,20 @@
   .container .video {
     position: relative;
     align-items: center;
-    justify-content: center; }
+    justify-content: center;
+    width: 90%;
+    padding: 0; }
     .container .video .vid {
-      padding: 0; }
+      width: 100%;
+      min-width: 100%;
+      min-height: 100%; }
     .container .video .playImg {
       position: absolute;
       max-width: 40px; }
     .container .video .overlay {
       position: absolute;
-      height: 100%;
+      min-width: 100%;
+      min-height: 100%;
       padding: 0;
       background-color: rgba(0, 0, 0, 0.2); }
     .container .video .hide {

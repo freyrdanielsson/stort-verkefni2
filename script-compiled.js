@@ -92,7 +92,8 @@ function init(data) {
   var videoinfo = videofind(data, window.location.search.charAt(4));
   var container = document.querySelector('.container');
   var videoContainer = container.querySelector('.video');
-  videoContainer.classList.add('row');
+  videoContainer.setAttribute('class', 'video');
+  //col col-12
 
   //finna takkanna líka inní fallinu, breyta html þá pínu
   var playButton = container.querySelectorAll('.player .player__button')[1].querySelector('.play');
@@ -118,7 +119,7 @@ function init(data) {
   //setjum poster inn í byrjun
   var poster = document.createElement('img');
   poster.setAttribute('src', videoinfo.poster);
-  poster.setAttribute('class', 'vid col col-12');
+  poster.setAttribute('class', 'vid ');
   videoContainer.appendChild(poster);
 
   //setjum play takka á poster
@@ -129,7 +130,7 @@ function init(data) {
 
   //prufa
   var overlay = document.createElement('div');
-  overlay.setAttribute('class', 'overlay col col-12');
+  overlay.setAttribute('class', 'overlay ');
   videoContainer.appendChild(overlay);
 
   //Sækja takka
@@ -173,7 +174,7 @@ function init(data) {
     if (played) {
       playImg.setAttribute('class', 'hide');
       videoContainer.removeChild(poster);
-      video.setAttribute('class', 'vid col col-12');
+      video.setAttribute('class', 'vid ');
       playButton.setAttribute('src', 'img/pause.svg');
       overlay.setAttribute('class', 'hide');
       played = false;
@@ -184,7 +185,7 @@ function init(data) {
       overlay.setAttribute('class', 'hide');
       video.play();
     } else {
-      overlay.setAttribute('class', 'overlay col col-12');
+      overlay.setAttribute('class', 'overlay ');
       playImg.setAttribute('class', 'playImg');
       playButton.setAttribute('src', 'img/play.svg');
       video.pause();
