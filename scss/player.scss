@@ -9,12 +9,12 @@
     color: #fff;
   }
 
-  .video {
+  .videoContainer {
     position: relative;
+    display: flex;
     align-items: center;
     justify-content: center;
     width: 90%;
-    max-width: 150vh;
     padding: 0;
 
     .vid {
@@ -34,7 +34,6 @@
       min-height: 100%;
       padding: 0;
       background-color: rgba(0, 0, 0, 0.2);
-
     }
 
     .hide {
