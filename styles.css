@@ -51,6 +51,8 @@
   color: #fff; }
   .header--heading1 {
     margin: 10px 0; }
+  .header--heading2 {
+    margin: 10px 0; }
 
 .video {
   display: flex;
@@ -71,6 +73,10 @@
     max-height: 1.5em;
     overflow: hidden;
     font-size: 1.2em; }
+  .video__date {
+    font-size: inherit; }
+  .video__movie {
+    margin-bottom: 20px; }
 
 .video::after {
   width: 75%;

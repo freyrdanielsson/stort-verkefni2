@@ -23,12 +23,20 @@
     overflow: hidden;
     font-size: 1.2em;
   }
+
+  &__date {
+    font-size: inherit;
+  }
+
+  &__movie {
+    margin-bottom: $gutter;
+  }
 }
 
 .video::after {
   width: 75%;
   height: 1px;
-  margin: 20px auto;
+  margin: $gutter auto;
   content: "";
   background: #eee;
 }
