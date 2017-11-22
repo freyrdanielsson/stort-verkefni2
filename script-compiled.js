@@ -215,17 +215,46 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+// framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
+function errMsg() {
+  var main = document.querySelector('main');
+  var error = document.createElement('div');
+  error.classList.add('error');
+  error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
+  main.appendChild(error);
+}
+
+// ajax kall á url og senda niðursöðu til video hlut
+function getData(url, video) {
+  var json = new XMLHttpRequest();
+  json.open('GET', url, true);
+  json.onload = function () {
+    if (json.status < 400 && json.status >= 200) {
+      video.run(JSON.parse(json.response));
+    } else {
+      console.error('villa', json);
+      errMsg();
+    }
+  };
+
+  json.onerror = function () {
+    errMsg();
+  };
+
+  json.send();
+}
+
 var Video = function () {
-  //smiður
+  // smiður
   function Video() {
     _classCallCheck(this, Video);
 
-    //local .json file
+    // local .json file
     this.API_URL = '/js/videos.json';
     getData(this.API_URL, this);
   }
 
-  //keyrsla
+  // keyrsla
 
 
   _createClass(Video, [{
@@ -235,21 +264,21 @@ var Video = function () {
       this.process(this.data);
     }
 
-    //vinna úr gögnum
+    // vinna úr gögnum
 
   }, {
     key: 'process',
     value: function process(data) {
       var videos = data.videos;
-      var cat = data.categories;
+      var categories = data.categories;
 
-      var sorted = this.sort(videos, cat);
+      var sorted = this.sort(videos, categories);
       this.make(sorted.nyleg, 'Nýleg_myndbönd');
       this.make(sorted.kennslu, 'Kennslumyndbönd');
       this.make(sorted.gaman, 'Skemmtimyndbönd');
     }
 
-    //búa til grind
+    // búa til grind
 
   }, {
     key: 'make',
@@ -270,7 +299,7 @@ var Video = function () {
       section.appendChild(list);
       header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')));
 
-      //fyrir alla flokka, búa til flokk með movie(x);
+      // fyrir alla flokka, búa til flokk með movie(x);
       Object.values(cat).forEach(function (x) {
         return list.appendChild(_this.movie(x));
       });
@@ -278,7 +307,7 @@ var Video = function () {
       main.appendChild(section);
     }
 
-    //búa til flokka með myndum
+    // búa til flokka með myndum
 
   }, {
     key: 'movie',
@@ -289,7 +318,7 @@ var Video = function () {
 
       var poster = document.createElement('a');
       poster.classList.add('video__poster');
-      poster.setAttribute('href', 'player.html?id=' + _movie.id);
+      poster.setAttribute('href', '\'player.html?id=\'' + _movie.id);
 
       var img = document.createElement('img');
       img.setAttribute('src', _movie.poster);
@@ -322,7 +351,7 @@ var Video = function () {
       return container;
     }
 
-    //útfæra grind
+    // útfæra grind
 
   }, {
     key: 'makeGrid',
@@ -333,7 +362,7 @@ var Video = function () {
       cont.classList.add('col-mm-12');
     }
 
-    //fá lengd myndbands
+    // fá lengd myndbands
 
   }, {
     key: 'timestamp',
@@ -343,12 +372,11 @@ var Video = function () {
 
       if (sec < 10) {
         return min + ':0' + sec;
-      } else {
-        return min + ':' + sec;
       }
+      return min + ':' + sec;
     }
 
-    //fá aldur á myndbandi
+    // fá aldur á myndbandi
 
   }, {
     key: 'toDate',
@@ -358,7 +386,7 @@ var Video = function () {
       return this.dateHowLong(now - made);
     }
 
-    //sníða framsetningu á aldri myndbands
+    // sníða framsetningu á aldri myndbands
 
   }, {
     key: 'dateHowLong',
@@ -368,31 +396,36 @@ var Video = function () {
       var month = Math.floor(secs / (30 * 24 * 60 * 60));
       var week = Math.floor(secs / (7 * 24 * 60 * 60));
       var day = Math.floor(secs / (24 * 60 * 60));
+      var hour = Math.floor(secs / (60 * 60));
 
       if (year >= 1) {
-        if (year == 1) {
+        if (year === 1) {
           return 'Fyrir ' + year + ' \xE1ri s\xED\xF0an';
-        } else return 'Fyrir ' + year + ' \xE1rum s\xED\xF0an';
+        }
+        return 'Fyrir ' + year + ' \xE1rum s\xED\xF0an';
       } else if (month >= 1) {
-        if (month == 1) {
+        if (month === 1) {
           return 'Fyrir ' + month + ' m\xE1nu\xF0i s\xED\xF0an';
-        } else return 'Fyrir ' + month + ' m\xE1nu\xF0um s\xED\xF0an';
+        }
+        return 'Fyrir ' + month + ' m\xE1nu\xF0um s\xED\xF0an';
       } else if (week >= 1) {
-        if (week == 1) {
+        if (week === 1) {
           return 'Fyrir ' + week + ' viku s\xED\xF0an';
-        } else return 'Fyrir ' + week + ' vikum s\xED\xF0an';
+        }
+        return 'Fyrir ' + week + ' vikum s\xED\xF0an';
       } else if (day >= 1) {
-        if (day == 1) {
+        if (day === 1) {
           return 'Fyrir ' + day + ' degi s\xED\xF0an';
-        } else return 'Fyrir ' + day + ' d\xF6gum s\xED\xF0an';
-      } else {
-        if (hour == 1) {
-          return 'Fyrir ' + hour + ' klukkustund s\xED\xF0an';
-        } else return 'Fyrir ' + hour + ' klukkustundum s\xED\xF0an';
+        }
+        return 'Fyrir ' + day + ' d\xF6gum s\xED\xF0an';
       }
+      if (hour === 1) {
+        return 'Fyrir ' + hour + ' klukkustund s\xED\xF0an';
+      }
+      return 'Fyrir ' + hour + ' klukkustundum s\xED\xF0an';
     }
 
-    //flokka myndir í catagoríur
+    // flokka myndir í catagoríur
 
   }, {
     key: 'sort',
@@ -416,38 +449,6 @@ var Video = function () {
 
   return Video;
 }();
-
-//ajax kall á url og senda niðursöðu til video hlut
-
-
-function getData(url, video) {
-  var json = new XMLHttpRequest();
-  json.open('GET', url, true);
-  json.onload = function () {
-    if (json.status < 400 && json.status >= 200) {
-      video.run(JSON.parse(json.response));
-    } else {
-
-      console.error('villa', json);
-      errMsg();
-    }
-  };
-
-  json.onerror = function () {
-    errMsg();
-  };
-
-  json.send();
-}
-
-//framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
-function errMsg() {
-  var main = document.querySelector('main');
-  var error = document.createElement('div');
-  error.classList.add('error');
-  error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
-  main.appendChild(error);
-}
 
 document.addEventListener('DOMContentLoaded', function () {
   var video = new Video();

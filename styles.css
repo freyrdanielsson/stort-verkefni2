@@ -75,14 +75,8 @@
     font-size: 1.2em; }
   .video__date {
     font-size: inherit; }
-<<<<<<< HEAD
   .video__movie {
     margin-bottom: 20px; }
-=======
-  @media (max-width: 500px) {
-    .video__movie {
-      margin-bottom: 20px; } }
->>>>>>> 8fceed71b8ad19dae3330d0a981f556cac580ece
 
 .video::after {
   width: 75%;
