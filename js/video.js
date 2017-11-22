@@ -13,7 +13,7 @@ function getData(url, video) {
   json.open('GET', url, true);
   json.onload = () => {
     if (json.status < 400 && json.status >= 200) {
-      video.run(JSON.parse(json.response));
+       video.run(JSON.parse(json.response));
     } else {
       console.error('villa', json);
       errMsg();
@@ -32,6 +32,9 @@ class Video {
   constructor() {
     // local .json file
     this.API_URL = '/js/videos.json';
+  }
+
+  go() {
     getData(this.API_URL, this);
   }
 
@@ -81,7 +84,7 @@ class Video {
 
     const poster = document.createElement('a');
     poster.classList.add('video__poster');
-    poster.setAttribute('href', `'player.html?id='${movie.id}`);
+    poster.setAttribute('href', `player.html?id=${movie.id}`);
 
     const img = document.createElement('img');
     img.setAttribute('src', movie.poster);
@@ -191,4 +194,5 @@ class Video {
 
 document.addEventListener('DOMContentLoaded', () => {
   const video = new Video();
+  video.go();
 });

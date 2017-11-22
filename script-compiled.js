@@ -219,13 +219,17 @@ var Video = function () {
 
     // local .json file
     this.API_URL = '/js/videos.json';
-    getData(this.API_URL, this);
   }
 
-  // keyrsla
-
-
   _createClass(Video, [{
+    key: 'go',
+    value: function go() {
+      getData(this.API_URL, this);
+    }
+
+    // keyrsla
+
+  }, {
     key: 'run',
     value: function run(data) {
       this.data = data;
@@ -286,7 +290,7 @@ var Video = function () {
 
       var poster = document.createElement('a');
       poster.classList.add('video__poster');
-      poster.setAttribute('href', '\'player.html?id=\'' + _movie.id);
+      poster.setAttribute('href', 'player.html?id=' + _movie.id);
 
       var img = document.createElement('img');
       img.setAttribute('src', _movie.poster);
@@ -420,6 +424,7 @@ var Video = function () {
 
 document.addEventListener('DOMContentLoaded', function () {
   var video = new Video();
+  video.go();
 });
 
 //# sourceMappingURL=script-compiled.js.map
