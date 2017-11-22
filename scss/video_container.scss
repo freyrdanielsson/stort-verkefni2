@@ -28,8 +28,15 @@
     font-size: inherit;
   }
 
+<<<<<<< HEAD
   &__movie {
     margin-bottom: $gutter;
+=======
+  @media (max-width: 500px) {
+    &__movie {
+      margin-bottom: $gutter;
+    }
+>>>>>>> 8fceed71b8ad19dae3330d0a981f556cac580ece
   }
 }
 
