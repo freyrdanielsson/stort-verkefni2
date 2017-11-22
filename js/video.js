@@ -1,29 +1,29 @@
 class Video {
+  //smiður
   constructor() {
     //local .json file
     this.API_URL = '/js/videos.json';
     getData(this.API_URL, this);
   }
 
+  //keyrsla
   run(data) {
     this.data = data;
-    console.log(this.data);
-
     this.process(this.data);
   }
 
+  //vinna úr gögnum
    process(data) {
-   const sec = document.querySelectorAll('.video');
    const videos = data.videos;
    const cat = data.categories;
 
    const sorted = this.sort(videos, cat);
-   console.log(sorted);
    this.make(sorted.nyleg, 'Nýleg_myndbönd');
    this.make(sorted.kennslu, 'Kennslumyndbönd');
    this.make(sorted.gaman, 'Skemmtimyndbönd');
   }
 
+  //búa til grind
   make(cat, title) {
     const main = document.querySelector('main');
 
@@ -37,12 +37,15 @@ class Video {
 
     section.appendChild(header);
     section.appendChild(list);
-    header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')))
+    header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')));
+
+    //fyrir alla flokka, búa til flokk með movie(x);
     Object.values(cat).forEach(x => list.appendChild(this.movie(x)));
 
     main.appendChild(section);
   }
 
+  //búa til flokka með myndum
   movie(movie) {
     const container = document.createElement('li');
     container.classList.add('video__movie');
@@ -63,12 +66,16 @@ class Video {
     title.classList.add('video__title');
     title.appendChild(document.createTextNode(movie.title));
 
+    const date = document.createElement('p');
+    date.classList.add('video__date');
+    date.appendChild(document.createTextNode(this.toDate(movie.created)));
+
     const info = document.createElement('div');
     info.classList.add('video__info');
 
   // TODO: gera fall fyrir movie.created
     info.appendChild(title);
-    info.appendChild(document.createTextNode(this.toDate(movie.created)));
+    info.appendChild(date);
 
     poster.appendChild(img);
     poster.appendChild(length);
@@ -79,6 +86,7 @@ class Video {
     return container;
   }
 
+  //útfæra grind
   makeGrid(cont) {
     cont.classList.add('col');
     cont.classList.add('col-4');
@@ -86,6 +94,7 @@ class Video {
     cont.classList.add('col-mm-12');
   }
 
+  //fá lengd myndbands
   timestamp(length) {
   const min = Math.floor(length/60);
   const sec = length - (min * 60);
@@ -94,12 +103,14 @@ class Video {
   else { return `${min}:${sec}`; }
   }
 
+  //fá aldur á myndbandi
   toDate(date) {
     const made = new Date(date);
     const now = new Date();
     return this.dateHowLong(now-made);
   }
 
+  //sníða framsetningu á aldri myndbands
   dateHowLong(time) {
     const secs =  time / 1000;
     const year = Math.floor(secs / (365 * 24 * 60 * 60));
@@ -109,27 +120,28 @@ class Video {
 
     if(year >= 1) {
       if(year == 1) {
-        return `fyrir ${year} ári síðan`;
-      } else return `fyrir ${year} árum síðan`;
+        return `Fyrir ${year} ári síðan`;
+      } else return `Fyrir ${year} árum síðan`;
     } else if(month >= 1) {
       if(month == 1) {
-        return `fyrir ${month} mánuði síðan`;
-      } else return `fyrir ${month} mánuðum síðan`;
+        return `Fyrir ${month} mánuði síðan`;
+      } else return `Fyrir ${month} mánuðum síðan`;
     } else if(week >= 1) {
       if(week == 1) {
-        return `fyrir ${week} viku síðan`;
-      } else return `fyrir ${week} vikum síðan`;
+        return `Fyrir ${week} viku síðan`;
+      } else return `Fyrir ${week} vikum síðan`;
     } else if(day >= 1) {
       if(day == 1) {
-        return `fyrir ${day} degi síðan`;
-      } else return `fyrir ${day} dögum síðan`;
+        return `Fyrir ${day} degi síðan`;
+      } else return `Fyrir ${day} dögum síðan`;
     } else {
       if(hour == 1) {
-        return `fyrir ${hour} klukkustund síðan`;
-      } else return `fyrir ${hour} klukkustundum síðan`;
+        return `Fyrir ${hour} klukkustund síðan`;
+      } else return `Fyrir ${hour} klukkustundum síðan`;
     }
   }
 
+  //flokka myndir í catagoríur
   sort(videos, cat) {
     // TODO: reyna koma þessu í forEach eða álíka
     const nyleg = videos.filter(function(categorie) {
@@ -149,6 +161,7 @@ class Video {
 
 }
 
+//ajax kall á url og senda niðursöðu til video hlut
 function getData(url, video) {
   const json = new XMLHttpRequest();
   json.open('GET', url, true);
@@ -169,6 +182,7 @@ function getData(url, video) {
   json.send();
 }
 
+//framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
 function errMsg() {
   const main = document.querySelector('main');
   const error = document.createElement('div');

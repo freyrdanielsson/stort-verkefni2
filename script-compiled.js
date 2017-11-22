@@ -216,6 +216,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Video = function () {
+  //smiður
   function Video() {
     _classCallCheck(this, Video);
 
@@ -224,27 +225,32 @@ var Video = function () {
     getData(this.API_URL, this);
   }
 
+  //keyrsla
+
+
   _createClass(Video, [{
     key: 'run',
     value: function run(data) {
       this.data = data;
-      console.log(this.data);
-
       this.process(this.data);
     }
+
+    //vinna úr gögnum
+
   }, {
     key: 'process',
     value: function process(data) {
-      var sec = document.querySelectorAll('.video');
       var videos = data.videos;
       var cat = data.categories;
 
       var sorted = this.sort(videos, cat);
-      console.log(sorted);
       this.make(sorted.nyleg, 'Nýleg_myndbönd');
       this.make(sorted.kennslu, 'Kennslumyndbönd');
       this.make(sorted.gaman, 'Skemmtimyndbönd');
     }
+
+    //búa til grind
+
   }, {
     key: 'make',
     value: function make(cat, title) {
@@ -263,12 +269,17 @@ var Video = function () {
       section.appendChild(header);
       section.appendChild(list);
       header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')));
+
+      //fyrir alla flokka, búa til flokk með movie(x);
       Object.values(cat).forEach(function (x) {
         return list.appendChild(_this.movie(x));
       });
 
       main.appendChild(section);
     }
+
+    //búa til flokka með myndum
+
   }, {
     key: 'movie',
     value: function movie(_movie) {
@@ -291,12 +302,16 @@ var Video = function () {
       title.classList.add('video__title');
       title.appendChild(document.createTextNode(_movie.title));
 
+      var date = document.createElement('p');
+      date.classList.add('video__date');
+      date.appendChild(document.createTextNode(this.toDate(_movie.created)));
+
       var info = document.createElement('div');
       info.classList.add('video__info');
 
       // TODO: gera fall fyrir movie.created
       info.appendChild(title);
-      info.appendChild(document.createTextNode(this.toDate(_movie.created)));
+      info.appendChild(date);
 
       poster.appendChild(img);
       poster.appendChild(length);
@@ -306,6 +321,9 @@ var Video = function () {
 
       return container;
     }
+
+    //útfæra grind
+
   }, {
     key: 'makeGrid',
     value: function makeGrid(cont) {
@@ -314,6 +332,9 @@ var Video = function () {
       cont.classList.add('col-sm-6');
       cont.classList.add('col-mm-12');
     }
+
+    //fá lengd myndbands
+
   }, {
     key: 'timestamp',
     value: function timestamp(length) {
@@ -326,6 +347,9 @@ var Video = function () {
         return min + ':' + sec;
       }
     }
+
+    //fá aldur á myndbandi
+
   }, {
     key: 'toDate',
     value: function toDate(date) {
@@ -333,6 +357,9 @@ var Video = function () {
       var now = new Date();
       return this.dateHowLong(now - made);
     }
+
+    //sníða framsetningu á aldri myndbands
+
   }, {
     key: 'dateHowLong',
     value: function dateHowLong(time) {
@@ -344,26 +371,29 @@ var Video = function () {
 
       if (year >= 1) {
         if (year == 1) {
-          return 'fyrir ' + year + ' \xE1ri s\xED\xF0an';
-        } else return 'fyrir ' + year + ' \xE1rum s\xED\xF0an';
+          return 'Fyrir ' + year + ' \xE1ri s\xED\xF0an';
+        } else return 'Fyrir ' + year + ' \xE1rum s\xED\xF0an';
       } else if (month >= 1) {
         if (month == 1) {
-          return 'fyrir ' + month + ' m\xE1nu\xF0i s\xED\xF0an';
-        } else return 'fyrir ' + month + ' m\xE1nu\xF0um s\xED\xF0an';
+          return 'Fyrir ' + month + ' m\xE1nu\xF0i s\xED\xF0an';
+        } else return 'Fyrir ' + month + ' m\xE1nu\xF0um s\xED\xF0an';
       } else if (week >= 1) {
         if (week == 1) {
-          return 'fyrir ' + week + ' viku s\xED\xF0an';
-        } else return 'fyrir ' + week + ' vikum s\xED\xF0an';
+          return 'Fyrir ' + week + ' viku s\xED\xF0an';
+        } else return 'Fyrir ' + week + ' vikum s\xED\xF0an';
       } else if (day >= 1) {
         if (day == 1) {
-          return 'fyrir ' + day + ' degi s\xED\xF0an';
-        } else return 'fyrir ' + day + ' d\xF6gum s\xED\xF0an';
+          return 'Fyrir ' + day + ' degi s\xED\xF0an';
+        } else return 'Fyrir ' + day + ' d\xF6gum s\xED\xF0an';
       } else {
         if (hour == 1) {
-          return 'fyrir ' + hour + ' klukkustund s\xED\xF0an';
-        } else return 'fyrir ' + hour + ' klukkustundum s\xED\xF0an';
+          return 'Fyrir ' + hour + ' klukkustund s\xED\xF0an';
+        } else return 'Fyrir ' + hour + ' klukkustundum s\xED\xF0an';
       }
     }
+
+    //flokka myndir í catagoríur
+
   }, {
     key: 'sort',
     value: function sort(videos, cat) {
@@ -387,6 +417,9 @@ var Video = function () {
   return Video;
 }();
 
+//ajax kall á url og senda niðursöðu til video hlut
+
+
 function getData(url, video) {
   var json = new XMLHttpRequest();
   json.open('GET', url, true);
@@ -407,6 +440,7 @@ function getData(url, video) {
   json.send();
 }
 
+//framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
 function errMsg() {
   var main = document.querySelector('main');
   var error = document.createElement('div');

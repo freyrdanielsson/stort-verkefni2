@@ -23,6 +23,16 @@
     overflow: hidden;
     font-size: 1.2em;
   }
+
+  &__date {
+    font-size: inherit;
+  }
+
+  @media (max-width: 500px) {
+    &__movie {
+      margin-bottom: $gutter;
+    }
+  }
 }
 
 .video::after {
