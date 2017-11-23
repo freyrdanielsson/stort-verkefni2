@@ -31,12 +31,20 @@
       "duration": 220,
       "poster": "./videos/16-9.png",
       "video": "./videos/bunny.mp4"
+    },
+    {
+      "id": 5,
+      "title": "Hot food",
+      "created": 1511394887466,
+      "duration": 63,
+      "poster": "./videos/Hot_food.png",
+      "video": "./videos/Hot_food.mp4"
     }
   ],
   "categories": [
     {
       "title": "Nýleg myndbönd",
-      "videos": [1, 2]
+      "videos": [1, 2, 5]
     },
     {
       "title": "Kennslumyndbönd",
