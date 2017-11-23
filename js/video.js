@@ -13,7 +13,7 @@ function getData(url, video) {
   json.open('GET', url, true);
   json.onload = () => {
     if (json.status < 400 && json.status >= 200) {
-       video.run(JSON.parse(json.response));
+      video.run(JSON.parse(json.response));
     } else {
       console.error('villa', json);
       errMsg();
@@ -28,7 +28,7 @@ function getData(url, video) {
 }
 
 function empty(el) {
-  while(el.firstChild) {
+  while (el.firstChild) {
     el.removeChild(el.firstChild);
   }
 }
