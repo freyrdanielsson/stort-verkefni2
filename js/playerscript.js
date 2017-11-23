@@ -1,21 +1,63 @@
-
 class Player {
-  constructor (data) {
+
+  constructor() {
+    // local .json file
+    this.API_URL = '/js/videos.json';
+  }
+
+  go() {
+    load(this.API_URL, this);
+  }
+
+  init(data) {
     this.data = data;
     //TODO nota search parameter til að finna ID
     this.videoinfo = this.videofind((window.location.search).charAt(4));
-    this.container = document.querySelector('.container');
-    this.videoContainer = (this.container).querySelector('.videoContainer');
-    //finna takkanna líka inní fallinu, breyta html þá pínu
-    this.playButton = (this.container.querySelectorAll('.player .player__button')[1]).querySelector('.play');
-    this.soundButton = (this.container.querySelectorAll('.player .player__button')[2]).querySelector('.sound');
+
+    //Búa til container á síðunni
+    empty((document.querySelector('main')));
+    this.container = document.createElement('div');
+    (this.container).setAttribute('class', 'container');
+    (document.querySelector('main')).appendChild(this.container);
+
+    //Búa til titil á síðuna
+    this.heading = document.createElement('h1');
+    (this.heading).setAttribute('class', 'heading');
+    //Búa til videocontainer
+    this.videoContainer = document.createElement('div');
+    (this.videoContainer).setAttribute('class', 'videoContainer');
+    //Búa til playerinn
+    this.player = document.createElement('div');
+    (this.player).setAttribute('class', 'player');
+    //Búa til 'til baka' takka
+    this.tilBaka = document.createElement('div');
+    (this.tilBaka).setAttribute('class', 'backBut');
+    this.tilBakahref = document.createElement('a');
+    (this.tilBakahref).setAttribute('href', 'index.html');
+    (this.tilBakahref).setAttribute('class', 'backBut__button');
+    (this.tilBakahref).appendChild(document.createTextNode('Til baka'));
+    (this.tilBaka).appendChild(this.tilBakahref);
+
+    //Setja inní container
+    (this.container).appendChild(this.heading);
+    (this.container).appendChild(this.videoContainer);
+    (this.container).appendChild(this.player);
+    (this.container).appendChild(this.tilBaka);
+
+    //Búa til takka og setja í player
+    this.back = this.makeButton('back');
+    this.playButton = this.makeButton('play');
+    this.muteButton = this.makeButton('mute');
+    this.fullscreen = this.makeButton('fullscreen');
+    this.next = this.makeButton('next');
+
     //Er verið að play-a í fyrsta skipti
     this.played = true;
-  }
 
-  init() {
+    //Setja titil í head title síðu
+    document.title = (this.videoinfo).title;
+
     //Setja titil efst á síðu
-    this.heading = this.container.querySelector('.heading');
     this.heading.appendChild(document.createTextNode((this.videoinfo).title));
 
     //Búum til myndbandshlut
@@ -42,23 +84,31 @@ class Player {
     this.overlay.setAttribute('class', 'overlay ');
     this.videoContainer.appendChild(this.overlay);
 
-    //Sækja takka
-    this.prev = this.container.querySelector('.player .prev');
-    this.play = this.container.querySelector('.player .play');
-    this.sound = this.container.querySelector('.player .sound');
-    this.fullscreen = this.container.querySelector('.player .fullscreen');
-    this.next = this.container.querySelector('.player .next');
-
     //Setja atburðarhandler á takkana
-    this.prev.addEventListener('click', this.setBack.bind(this));
-    this.play.addEventListener('click', this.playPause.bind(this));
-    this.sound.addEventListener('click', this.soundMute.bind(this));
+    this.back.addEventListener('click', this.setBack.bind(this));
+    this.playButton.addEventListener('click', this.playPause.bind(this));
+    this.muteButton.addEventListener('click', this.soundMute.bind(this));
     this.fullscreen.addEventListener('click', this.fullscr.bind(this));
     this.next.addEventListener('click', this.setFor.bind(this));
 
     //atburðarhandler á skjá
     this.overlay.addEventListener('click', this.playPause.bind(this));
     this.video.addEventListener('click', this.playPause.bind(this));
+
+    //Setja atburðahandler á myndband, sjá hvenar það klárast, skipta um myndband
+    this.video.addEventListener('ended', this.show.bind(this));
+  }
+
+  makeButton(name) {
+    //button element með klasa player__button
+    const button = (document.createElement('button'));
+    button.setAttribute('class', 'player__button');
+    const imgElement = (document.createElement('img'));
+    imgElement.setAttribute('class', name);
+    imgElement.setAttribute('src', `img/${name}.svg`);
+    button.appendChild(imgElement);
+    (this.player).appendChild(button);
+    return imgElement;
   }
 
   //gaura aukafalla til að sleppa við línur gerðar tvisvar
@@ -73,11 +123,15 @@ class Player {
     } else if (this.video.paused) {
       this.hide();
     } else {
-      this.overlay.setAttribute('class', 'overlay ');
-      this.playImg.setAttribute('class', 'playImg');
-      this.playButton.setAttribute('src', 'img/play.svg');
+      this.show();
       this.video.pause();
     }
+  }
+
+  show() {
+    this.overlay.setAttribute('class', 'overlay ');
+    this.playImg.setAttribute('class', 'playImg');
+    this.playButton.setAttribute('src', 'img/play.svg');
   }
 
   //fela overlay og play taka þegar myndband er play-a (play-a og toggla takka)
@@ -91,10 +145,10 @@ class Player {
   //afmute-a/mute-a myndband og toggla takka í samræmi
   soundMute() {
     if(this.video.muted){
-      this.soundButton.setAttribute('src', 'img/mute.svg');
+      this.muteButton.setAttribute('src', 'img/mute.svg');
       this.video.muted = false;
     } else {
-      this.soundButton.setAttribute('src', 'img/unmute.svg');
+      this.muteButton.setAttribute('src', 'img/unmute.svg');
       this.video.muted = true;
     }
   }
@@ -123,22 +177,39 @@ class Player {
     }
   }
 }
+//Fall til að hreinsa hlut
+function empty(el) {
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
+}
 
 //TODO ath hvort skili villu
 //TODO ekki framkvæma á index síðu
 //Hlaða gögnum
-function load() {
+function load(url, player) {
   const json = new XMLHttpRequest();
-  json.open('GET', '/js/videos.json', true);
 
-  json.onload = function() {
+  const gif = document.createElement('IMG');
+  gif.setAttribute('class', 'gif');
+  gif.src = 'Eclipse.gif';
+  (document.querySelector('main')).appendChild(gif);
+
+  json.open('GET', '/js/videos.json', true);
+  json.onload = () => {
+    if(json.status < 400 && json.status >= 200){
       const jsondata = JSON.parse(json.response);
-      const player = new Player(jsondata.videos);
-      player.init();
+      player.init(jsondata.videos);
+    } else {
+      //TODO
+    }
   };
   json.send();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  load();
+  if(document.location.pathname.indexOf('player') >-1) {
+    const player = new Player();
+    player.go();
+  }
 });
