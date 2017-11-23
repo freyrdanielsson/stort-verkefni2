@@ -40,8 +40,8 @@ class Video {
     this.API_URL = '/js/videos.json';
     this.main = document.querySelector('main');
     this.loading = document.createElement('img');
-    this.loading.setAttribute('src', 'img/loading.gif');
-    this.loading.setAttribute('class', 'loading');
+    this.loading.setAttribute('src', 'img/Eclipse.gif');
+    this.loading.setAttribute('class', 'loading row col col-center');
 
     this.main.appendChild(this.loading);
   }
@@ -57,7 +57,7 @@ class Video {
     this.header.appendChild(document.createTextNode('Myndbandaleigan'));
 
     empty(this.main);
-    
+
     this.main.appendChild(this.header);
     this.data = data;
     this.process(this.data);

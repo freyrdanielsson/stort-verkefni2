@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .container {
   display: flex;
   padding: 40px;
@@ -45,6 +44,7 @@
     .container .backBut__button {
       color: #fff;
       text-decoration: none; }
+coration: none; }
 
 .header {
   font-size: 1.5rem;
@@ -53,9 +53,6 @@
     margin: 10px 0; }
   .header--heading2 {
     margin: 10px 0; }
-
-.loading {
-  margin: 0 auto; }
 
 .video {
   display: flex;
@@ -108,6 +105,8 @@
   @media (max-width: 500px) {
     .col-mm-12 {
       width: 100%; } }
+  .col-center {
+    margin: 0 auto; }
 
 .error {
   display: flex;
