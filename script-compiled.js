@@ -10,11 +10,6 @@ var Player = function () {
 
     // local .json file
     this.API_URL = '/js/videos.json';
-
-    this.gif = document.createElement('IMG');
-    this.gif.setAttribute('class', 'gif');
-    this.gif.src = 'Eclipse.gif';
-    document.querySelector('main').appendChild(this.gif);
   }
 
   _createClass(Player, [{
@@ -25,12 +20,14 @@ var Player = function () {
   }, {
     key: 'init',
     value: function init(data) {
+      //Tæma síðu
+      empty(document.querySelector('main'));
       this.data = data;
-      //TODO nota search parameter til að finna ID
-      this.videoinfo = this.videofind(window.location.search.charAt(4));
+      //nota search parameter til að finna ID
+      var sParameter = new URLSearchParams(window.location.search);
+      this.videoinfo = this.videofind(sParameter.get('id'));
 
       //Búa til container á síðunni
-      empty(document.querySelector('main'));
       this.container = document.createElement('div');
       this.container.setAttribute('class', 'container');
       document.querySelector('main').appendChild(this.container);
@@ -207,12 +204,13 @@ var Player = function () {
   }, {
     key: 'videofind',
     value: function videofind(id) {
-      //TODO nota flottari lykkju?
       for (var i = 0; i < this.data.length; i++) {
         if (this.data[i].id == id) {
           return this.data[i];
         }
       }
+      //Ef myndband finnst ekki þá errorMessage
+      errorMessage();
     }
   }]);
 
@@ -227,8 +225,15 @@ function empty(el) {
   }
 }
 
-//TODO ath hvort skili villu
-//TODO ekki framkvæma á index síðu
+// framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
+function errorMessage() {
+  var main = document.querySelector('main');
+  var error = document.createElement('div');
+  empty(main);
+  error.setAttribute('class', 'error');
+  error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
+  main.appendChild(error);
+}
 //Hlaða gögnum
 function load(url, player) {
   var json = new XMLHttpRequest();
@@ -238,7 +243,7 @@ function load(url, player) {
       var jsondata = JSON.parse(json.response);
       player.init(jsondata.videos);
     } else {
-      //TODO
+      errorMessage();
     }
   };
   json.send();
