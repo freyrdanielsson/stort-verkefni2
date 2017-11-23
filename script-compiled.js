@@ -10,6 +10,11 @@ var Player = function () {
 
     // local .json file
     this.API_URL = '/js/videos.json';
+
+    this.gif = document.createElement('IMG');
+    this.gif.setAttribute('class', 'gif');
+    this.gif.src = 'Eclipse.gif';
+    document.querySelector('main').appendChild(this.gif);
   }
 
   _createClass(Player, [{
@@ -227,12 +232,6 @@ function empty(el) {
 //Hlaða gögnum
 function load(url, player) {
   var json = new XMLHttpRequest();
-
-  var gif = document.createElement('IMG');
-  gif.setAttribute('class', 'gif');
-  gif.src = 'Eclipse.gif';
-  document.querySelector('main').appendChild(gif);
-
   json.open('GET', '/js/videos.json', true);
   json.onload = function () {
     if (json.status < 400 && json.status >= 200) {
