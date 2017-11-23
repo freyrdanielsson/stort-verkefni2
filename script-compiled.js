@@ -300,11 +300,6 @@ var Video = function () {
     // local .json file
     this.API_URL = '/js/videos.json';
     this.main = document.querySelector('main');
-    this.loading = document.createElement('img');
-    this.loading.setAttribute('src', 'img/Eclipse.gif');
-    this.loading.setAttribute('class', 'loading row col col-center');
-
-    this.main.appendChild(this.loading);
   }
 
   _createClass(Video, [{
