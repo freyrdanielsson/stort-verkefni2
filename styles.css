@@ -54,9 +54,6 @@
   .header--heading2 {
     margin: 10px 0; }
 
-.loading {
-  margin: 0 auto; }
-
 .video {
   display: flex;
   color: #eee; }
@@ -108,6 +105,8 @@
   @media (max-width: 500px) {
     .col-mm-12 {
       width: 100%; } }
+  .col-center {
+    margin: 0 auto; }
 
 .error {
   display: flex;

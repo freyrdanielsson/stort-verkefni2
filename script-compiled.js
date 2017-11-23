@@ -227,8 +227,8 @@ var Video = function () {
     this.API_URL = '/js/videos.json';
     this.main = document.querySelector('main');
     this.loading = document.createElement('img');
-    this.loading.setAttribute('src', 'img/loading.gif');
-    this.loading.setAttribute('class', 'loading');
+    this.loading.setAttribute('src', 'img/Eclipse.gif');
+    this.loading.setAttribute('class', 'loading row col col-center');
 
     this.main.appendChild(this.loading);
   }
