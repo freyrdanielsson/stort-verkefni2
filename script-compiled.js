@@ -286,6 +286,12 @@ function getData(url, video) {
   json.send();
 }
 
+function empty(el) {
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
+}
+
 var Video = function () {
   // smiður
   function Video() {
@@ -293,6 +299,12 @@ var Video = function () {
 
     // local .json file
     this.API_URL = '/js/videos.json';
+    this.main = document.querySelector('main');
+    this.loading = document.createElement('img');
+    this.loading.setAttribute('src', 'img/loading.gif');
+    this.loading.setAttribute('class', 'loading');
+
+    this.main.appendChild(this.loading);
   }
 
   _createClass(Video, [{
@@ -306,6 +318,13 @@ var Video = function () {
   }, {
     key: 'run',
     value: function run(data) {
+      this.header = document.createElement('h1');
+      this.header.setAttribute('class', 'header header--heading1');
+      this.header.appendChild(document.createTextNode('Myndbandaleigan'));
+
+      empty(this.main);
+
+      this.main.appendChild(this.header);
       this.data = data;
       this.process(this.data);
     }
@@ -319,6 +338,7 @@ var Video = function () {
       var categories = data.categories;
 
       var sorted = this.sort(videos, categories);
+
       this.make(sorted.nyleg, 'Nýleg_myndbönd');
       this.make(sorted.kennslu, 'Kennslumyndbönd');
       this.make(sorted.gaman, 'Skemmtimyndbönd');
@@ -331,26 +351,24 @@ var Video = function () {
     value: function make(cat, title) {
       var _this = this;
 
-      var main = document.querySelector('main');
+      this.section = document.createElement('nav');
+      this.list = document.createElement('ul');
+      this.list.classList.add('video');
+      this.list.classList.add('row');
 
-      var section = document.createElement('nav');
-      var list = document.createElement('ul');
-      list.classList.add('video');
-      list.classList.add('row');
+      this.header = document.createElement('h2');
+      this.header.setAttribute('class', 'header header--heading2');
 
-      var header = document.createElement('h2');
-      header.setAttribute('class', 'header header--heading2');
-
-      section.appendChild(header);
-      section.appendChild(list);
-      header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')));
+      this.section.appendChild(this.header);
+      this.section.appendChild(this.list);
+      this.header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')));
 
       // fyrir alla flokka, búa til flokk með movie(x);
       Object.values(cat).forEach(function (x) {
-        return list.appendChild(_this.movie(x));
+        return _this.list.appendChild(_this.movie(x));
       });
 
-      main.appendChild(section);
+      this.main.appendChild(this.section);
     }
 
     // búa til flokka með myndum
@@ -358,43 +376,43 @@ var Video = function () {
   }, {
     key: 'movie',
     value: function movie(_movie) {
-      var container = document.createElement('li');
-      container.classList.add('video__movie');
-      this.makeGrid(container);
+      this.container = document.createElement('li');
+      this.container.classList.add('video__movie');
+      this.makeGrid(this.container);
 
-      var poster = document.createElement('a');
-      poster.classList.add('video__poster');
-      poster.setAttribute('href', 'player.html?id=' + _movie.id);
+      this.poster = document.createElement('a');
+      this.poster.classList.add('video__poster');
+      this.poster.setAttribute('href', 'player.html?id=' + _movie.id);
 
-      var img = document.createElement('img');
-      img.setAttribute('src', _movie.poster);
+      this.img = document.createElement('img');
+      this.img.setAttribute('src', _movie.poster);
 
-      var length = document.createElement('div');
-      length.classList.add('video__length');
-      length.appendChild(document.createTextNode(this.timestamp(_movie.duration)));
+      this.length = document.createElement('div');
+      this.length.classList.add('video__length');
+      this.length.appendChild(document.createTextNode(this.timestamp(_movie.duration)));
 
-      var title = document.createElement('h2');
-      title.classList.add('video__title');
-      title.appendChild(document.createTextNode(_movie.title));
+      this.title = document.createElement('h2');
+      this.title.classList.add('video__title');
+      this.title.appendChild(document.createTextNode(_movie.title));
 
-      var date = document.createElement('p');
-      date.classList.add('video__date');
-      date.appendChild(document.createTextNode(this.toDate(_movie.created)));
+      this.date = document.createElement('p');
+      this.date.classList.add('video__date');
+      this.date.appendChild(document.createTextNode(this.toDate(_movie.created)));
 
-      var info = document.createElement('div');
-      info.classList.add('video__info');
+      this.info = document.createElement('div');
+      this.info.classList.add('video__info');
 
       // TODO: gera fall fyrir movie.created
-      info.appendChild(title);
-      info.appendChild(date);
+      this.info.appendChild(this.title);
+      this.info.appendChild(this.date);
 
-      poster.appendChild(img);
-      poster.appendChild(length);
+      this.poster.appendChild(this.img);
+      this.poster.appendChild(this.length);
 
-      container.appendChild(poster);
-      container.appendChild(info);
+      this.container.appendChild(this.poster);
+      this.container.appendChild(this.info);
 
-      return container;
+      return this.container;
     }
 
     // útfæra grind

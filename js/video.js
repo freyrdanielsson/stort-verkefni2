@@ -27,11 +27,23 @@ function getData(url, video) {
   json.send();
 }
 
+function empty(el) {
+  while(el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
+}
+
 class Video {
   // smiður
   constructor() {
     // local .json file
     this.API_URL = '/js/videos.json';
+    this.main = document.querySelector('main');
+    this.loading = document.createElement('img');
+    this.loading.setAttribute('src', 'img/loading.gif');
+    this.loading.setAttribute('class', 'loading');
+
+    this.main.appendChild(this.loading);
   }
 
   go() {
@@ -40,6 +52,13 @@ class Video {
 
   // keyrsla
   run(data) {
+    this.header = document.createElement('h1');
+    this.header.setAttribute('class', 'header header--heading1');
+    this.header.appendChild(document.createTextNode('Myndbandaleigan'));
+
+    empty(this.main);
+    
+    this.main.appendChild(this.header);
     this.data = data;
     this.process(this.data);
   }
@@ -49,6 +68,7 @@ class Video {
     const { videos } = data;
     const { categories } = data;
     const sorted = this.sort(videos, categories);
+
     this.make(sorted.nyleg, 'Nýleg_myndbönd');
     this.make(sorted.kennslu, 'Kennslumyndbönd');
     this.make(sorted.gaman, 'Skemmtimyndbönd');
@@ -56,65 +76,63 @@ class Video {
 
   // búa til grind
   make(cat, title) {
-    const main = document.querySelector('main');
+    this.section = document.createElement('nav');
+    this.list = document.createElement('ul');
+    this.list.classList.add('video');
+    this.list.classList.add('row');
 
-    const section = document.createElement('nav');
-    const list = document.createElement('ul');
-    list.classList.add('video');
-    list.classList.add('row');
+    this.header = document.createElement('h2');
+    this.header.setAttribute('class', 'header header--heading2');
 
-    const header = document.createElement('h2');
-    header.setAttribute('class', 'header header--heading2');
-
-    section.appendChild(header);
-    section.appendChild(list);
-    header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')));
+    this.section.appendChild(this.header);
+    this.section.appendChild(this.list);
+    this.header.appendChild(document.createTextNode(title.replace(/_+/g, ' ')));
 
     // fyrir alla flokka, búa til flokk með movie(x);
-    Object.values(cat).forEach(x => list.appendChild(this.movie(x)));
+    Object.values(cat).forEach(x => this.list.appendChild(this.movie(x)));
 
-    main.appendChild(section);
+    this.main.appendChild(this.section);
   }
 
   // búa til flokka með myndum
   movie(movie) {
-    const container = document.createElement('li');
-    container.classList.add('video__movie');
-    this.makeGrid(container);
+    this.container = document.createElement('li');
+    this.container.classList.add('video__movie');
+    this.makeGrid(this.container);
 
-    const poster = document.createElement('a');
-    poster.classList.add('video__poster');
-    poster.setAttribute('href', `player.html?id=${movie.id}`);
+    this.poster = document.createElement('a');
+    this.poster.classList.add('video__poster');
+    this.poster.setAttribute('href', `player.html?id=${movie.id}`);
 
-    const img = document.createElement('img');
-    img.setAttribute('src', movie.poster);
+    this.img = document.createElement('img');
+    this.img.setAttribute('src', movie.poster);
 
-    const length = document.createElement('div');
-    length.classList.add('video__length');
-    length.appendChild(document.createTextNode(this.timestamp(movie.duration)));
+    this.length = document.createElement('div');
+    this.length.classList.add('video__length');
+    this.length.appendChild(document.createTextNode(this.timestamp(movie.duration)));
 
-    const title = document.createElement('h2');
-    title.classList.add('video__title');
-    title.appendChild(document.createTextNode(movie.title));
+    this.title = document.createElement('h2');
+    this.title.classList.add('video__title');
+    this.title.appendChild(document.createTextNode(movie.title));
 
-    const date = document.createElement('p');
-    date.classList.add('video__date');
-    date.appendChild(document.createTextNode(this.toDate(movie.created)));
+    this.date = document.createElement('p');
+    this.date.classList.add('video__date');
+    this.date.appendChild(document.createTextNode(this.toDate(movie.created)));
 
-    const info = document.createElement('div');
-    info.classList.add('video__info');
+    this.info = document.createElement('div');
+    this.info.classList.add('video__info');
 
     // TODO: gera fall fyrir movie.created
-    info.appendChild(title);
-    info.appendChild(date);
+    this.info.appendChild(this.title);
+    this.info.appendChild(this.date);
 
-    poster.appendChild(img);
-    poster.appendChild(length);
+    this.poster.appendChild(this.img);
+    this.poster.appendChild(this.length);
 
-    container.appendChild(poster);
-    container.appendChild(info);
+    this.container.appendChild(this.poster);
+    this.container.appendChild(this.info);
 
-    return container;
+    return this.container;
   }
 
   // útfæra grind

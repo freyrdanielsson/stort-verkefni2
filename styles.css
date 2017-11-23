@@ -54,6 +54,9 @@
   .header--heading2 {
     margin: 10px 0; }
 
+.loading {
+  margin: 0 auto; }
+
 .video {
   display: flex;
   color: #eee; }
