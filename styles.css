@@ -40,9 +40,9 @@
       margin-right: 10px;
       background-color: Transparent;
       border: 0; }
-  .container .back {
+  .container .backBut {
     margin: 20px; }
-    .container .back__button {
+    .container .backBut__button {
       color: #fff;
       text-decoration: none; }
 
