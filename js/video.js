@@ -1,9 +1,17 @@
+// tæmir containerinn el
+function empty(el) {
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
+}
+
 // framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
 function errMsg() {
   const main = document.querySelector('main');
   const error = document.createElement('div');
   error.classList.add('error');
   error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
+  empty(main);
   main.appendChild(error);
 }
 
@@ -26,12 +34,6 @@ function getData(url, video) {
   json.send();
 }
 
-function empty(el) {
-  while (el.firstChild) {
-    el.removeChild(el.firstChild);
-  }
-}
-
 class Video {
   // smiður
   constructor() {
@@ -46,13 +48,8 @@ class Video {
 
   // keyrsla
   run(data) {
-    this.header = document.createElement('h1');
-    this.header.setAttribute('class', 'header header--heading1');
-    this.header.appendChild(document.createTextNode('Myndbandaleigan'));
-
     empty(this.main);
 
-    this.main.appendChild(this.header);
     this.data = data;
     this.process(this.data);
   }
@@ -116,7 +113,6 @@ class Video {
     this.info = document.createElement('div');
     this.info.classList.add('video__info');
 
-    // TODO: gera fall fyrir movie.created
     this.info.appendChild(this.title);
     this.info.appendChild(this.date);
 
@@ -193,11 +189,8 @@ class Video {
 
   // flokka myndir í catagoríur
   sort(videos, cat) {
-    // TODO: reyna koma þessu í forEach eða álíka
     const nyleg = videos.filter(categorie => cat[0].videos.includes(categorie.id));
-
     const kennslu = videos.filter(categorie => cat[1].videos.includes(categorie.id));
-
     const gaman = videos.filter(categorie => cat[2].videos.includes(categorie.id));
 
     return { nyleg, kennslu, gaman };

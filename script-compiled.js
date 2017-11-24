@@ -241,12 +241,20 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+// tæmir containerinn el
+function empty(el) {
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
+}
+
 // framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
 function errMsg() {
   var main = document.querySelector('main');
   var error = document.createElement('div');
   error.classList.add('error');
   error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
+  empty(main);
   main.appendChild(error);
 }
 
@@ -267,12 +275,6 @@ function getData(url, video) {
   };
 
   json.send();
-}
-
-function empty(el) {
-  while (el.firstChild) {
-    el.removeChild(el.firstChild);
-  }
 }
 
 var Video = function () {
@@ -296,13 +298,8 @@ var Video = function () {
   }, {
     key: 'run',
     value: function run(data) {
-      this.header = document.createElement('h1');
-      this.header.setAttribute('class', 'header header--heading1');
-      this.header.appendChild(document.createTextNode('Myndbandaleigan'));
-
       empty(this.main);
 
-      this.main.appendChild(this.header);
       this.data = data;
       this.process(this.data);
     }
@@ -380,7 +377,6 @@ var Video = function () {
       this.info = document.createElement('div');
       this.info.classList.add('video__info');
 
-      // TODO: gera fall fyrir movie.created
       this.info.appendChild(this.title);
       this.info.appendChild(this.date);
 
@@ -472,15 +468,12 @@ var Video = function () {
   }, {
     key: 'sort',
     value: function sort(videos, cat) {
-      // TODO: reyna koma þessu í forEach eða álíka
       var nyleg = videos.filter(function (categorie) {
         return cat[0].videos.includes(categorie.id);
       });
-
       var kennslu = videos.filter(function (categorie) {
         return cat[1].videos.includes(categorie.id);
       });
-
       var gaman = videos.filter(function (categorie) {
         return cat[2].videos.includes(categorie.id);
       });
