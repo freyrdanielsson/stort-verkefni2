@@ -4,22 +4,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-//  Fall til að hreinsa hlut
-function empty(el) {
-  while (el.firstChild) {
-    el.removeChild(el.firstChild);
-  }
-}
-
-//  framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
-function errorMessage() {
-  var main = document.querySelector('main');
-  var error = document.createElement('div');
-  main.removeChild(main.querySelector('.gif'));
-  error.setAttribute('class', 'error');
-  error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
-  main.appendChild(error);
-}
 //  Hlaða gögnum
 function load(url, player) {
   var json = new XMLHttpRequest();
@@ -41,7 +25,22 @@ function load(url, player) {
   };
   json.send();
 }
+//  Fall til að hreinsa hlut
+function empty(el) {
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
+}
 
+//  framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
+function errorMessage() {
+  var cont = document.querySelector('.main .container .videoContainer');
+  var error = document.createElement('div');
+  empty(cont);
+  error.setAttribute('class', 'errorMsg');
+  error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
+  cont.appendChild(error);
+}
 // notar ID úr querystring til að finna hvaða video var smellt á
 function videofind(data) {
   var sParameter = new URLSearchParams(window.location.search);

@@ -1,19 +1,3 @@
-//  Fall til að hreinsa hlut
-function empty(el) {
-  while (el.firstChild) {
-    el.removeChild(el.firstChild);
-  }
-}
-
-//  framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
-function errorMessage() {
-  const main = document.querySelector('main');
-  const error = document.createElement('div');
-  main.removeChild(main.querySelector('.gif'));
-  error.setAttribute('class', 'error');
-  error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
-  main.appendChild(error);
-}
 //  Hlaða gögnum
 function load(url, player) {
   const json = new XMLHttpRequest();
@@ -35,7 +19,22 @@ function load(url, player) {
   };
   json.send();
 }
+//  Fall til að hreinsa hlut
+function empty(el) {
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
+}
 
+//  framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
+function errorMessage() {
+  const cont = document.querySelector('.main .container .videoContainer');
+  const error = document.createElement('div');
+  empty(cont);
+  error.setAttribute('class', 'errorMsg');
+  error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
+  cont.appendChild(error);
+}
 // notar ID úr querystring til að finna hvaða video var smellt á
 function videofind(data) {
   const sParameter = new URLSearchParams(window.location.search);
