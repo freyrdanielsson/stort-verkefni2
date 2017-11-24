@@ -15,7 +15,6 @@ function getData(url, video) {
     if (json.status < 400 && json.status >= 200) {
       video.run(JSON.parse(json.response));
     } else {
-      console.error('villa', json);
       errMsg();
     }
   };

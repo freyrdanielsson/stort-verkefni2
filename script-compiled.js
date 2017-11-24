@@ -15,7 +15,7 @@ function empty(el) {
 function errorMessage() {
   var main = document.querySelector('main');
   var error = document.createElement('div');
-  empty(main);
+  main.removeChild(main.querySelector('.gif'));
   error.setAttribute('class', 'error');
   error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
   main.appendChild(error);
@@ -27,12 +27,31 @@ function load(url, player) {
   json.onload = function () {
     if (json.status < 400 && json.status >= 200) {
       var jsondata = JSON.parse(json.response);
-      player.init(jsondata.videos);
+      //Sækja okkar myndband úr fylkinu
+      var myvideo = videofind(jsondata.videos);
+      //Ef okkar myndband (myndband með sama ID og okkar var ekki til)
+      if (myvideo == null) {
+        errorMessage();
+      } else {
+        player.init(myvideo);
+      }
     } else {
       errorMessage();
     }
   };
   json.send();
+}
+
+// notar ID úr querystring til að finna hvaða video var smellt á
+function videofind(data) {
+  var sParameter = new URLSearchParams(window.location.search);
+  var id = sParameter.get('id');
+  for (var i = 0; i < data.length; i += 1) {
+    if (data[i].id === Number(id)) {
+      return data[i];
+    }
+  }
+  return null;
 }
 
 var Player = function () {
@@ -51,57 +70,33 @@ var Player = function () {
   }, {
     key: 'init',
     value: function init(data) {
-      //  Tæma síðu
-      empty(document.querySelector('main'));
-      this.data = data;
-      //  nota search parameter til að finna ID
-      var sParameter = new URLSearchParams(window.location.search);
-      this.videoinfo = this.videofind(sParameter.get('id'));
+      // hér er data jsondata.video
+      this.videoinfo = data;
 
       //  Búa til container á síðunni
-      this.container = document.createElement('div');
-      this.container.setAttribute('class', 'container');
-      document.querySelector('main').appendChild(this.container);
-
-      // Búa til titil á síðuna
-      this.heading = document.createElement('h1');
-      this.heading.setAttribute('class', 'heading');
+      this.container = document.querySelector(' .container');
       // Búa til videocontainer
-      this.videoContainer = document.createElement('div');
-      this.videoContainer.setAttribute('class', 'videoContainer');
-      // Búa til playerinn
-      this.player = document.createElement('div');
-      this.player.setAttribute('class', 'player');
-      // Búa til 'til baka' takka
-      this.tilBaka = document.createElement('div');
-      this.tilBaka.setAttribute('class', 'backBut');
-      this.tilBakahref = document.createElement('a');
-      this.tilBakahref.setAttribute('href', 'index.html');
-      this.tilBakahref.setAttribute('class', 'backBut__button');
-      this.tilBakahref.appendChild(document.createTextNode('Til baka'));
-      this.tilBaka.appendChild(this.tilBakahref);
+      this.videoContainer = this.container.querySelector('.videoContainer');
+      //taka út loading.gif
+      empty(this.videoContainer);
 
-      // Setja inní container
-      this.container.appendChild(this.heading);
-      this.container.appendChild(this.videoContainer);
-      this.container.appendChild(this.player);
-      this.container.appendChild(this.tilBaka);
+      // Setja titil efst á síðu
+      this.heading = this.container.querySelector('.heading');
+      this.heading.removeChild(this.heading.firstChild);
+      this.heading.appendChild(document.createTextNode(this.videoinfo.title));
 
-      // Búa til takka og setja í player
-      this.back = this.makeButton('back');
-      this.playButton = this.makeButton('play');
-      this.muteButton = this.makeButton('mute');
-      this.fullscreen = this.makeButton('fullscreen');
-      this.next = this.makeButton('next');
+      // Sækja takka
+      this.back = this.container.querySelector('.player .back');
+      this.playButton = this.container.querySelector('.player .play');
+      this.muteButton = this.container.querySelector('.player .sound');
+      this.fullscreen = this.container.querySelector('.player .fullscreen');
+      this.next = this.container.querySelector('.player .next');
 
       // Er verið að play-a í fyrsta skipti
       this.played = true;
 
       // Setja titil í head title síðu
       document.title = this.videoinfo.title;
-
-      // Setja titil efst á síðu
-      this.heading.appendChild(document.createTextNode(this.videoinfo.title));
 
       // Búum til myndbandshlut
       this.video = document.createElement('video');
@@ -229,21 +224,6 @@ var Player = function () {
     value: function setFor() {
       this.video.currentTime += 3;
     }
-
-    // notar ID úr querystring til að finna hvaða video var smellt á
-
-  }, {
-    key: 'videofind',
-    value: function videofind(id) {
-      for (var i = 0; i < this.data.length; i += 1) {
-        if (this.data[i].id === Number(id)) {
-          return this.data[i];
-        }
-      }
-      // Ef myndband finnst ekki þá errorMessage
-      errorMessage();
-      return null;
-    }
   }]);
 
   return Player;
@@ -278,7 +258,6 @@ function getData(url, video) {
     if (json.status < 400 && json.status >= 200) {
       video.run(JSON.parse(json.response));
     } else {
-      console.error('villa', json);
       errMsg();
     }
   };
