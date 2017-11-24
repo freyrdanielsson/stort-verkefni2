@@ -57,7 +57,7 @@
   font-size: 1.5rem;
   color: #fff; }
   .header--heading1 {
-    padding: 10px 20px; }
+    padding: 10px 0; }
   .header--heading2 {
     padding: 10px 0; }
 
@@ -144,11 +144,11 @@ img {
   /* stylelint-disable-line */
   max-width: 100%; }
 
-main {
+main, header {
   /* stylelint-disable-line */
   max-width: 1200px;
   margin: 0 20px;
   overflow-x: hidden; }
   @media (min-width: 1200px) {
-    main {
+    main, header {
       margin: 0 auto; } }
