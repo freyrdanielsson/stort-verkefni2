@@ -50,9 +50,9 @@
   font-size: 1.5rem;
   color: #fff; }
   .header--heading1 {
-    margin: 10px 0; }
+    padding: 10px 20px; }
   .header--heading2 {
-    margin: 10px 0; }
+    padding: 10px 0; }
 
 .video {
   display: flex;
