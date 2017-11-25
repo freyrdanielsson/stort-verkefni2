@@ -4,42 +4,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-//  Hlaða gögnum
-function load(url, player) {
-  var json = new XMLHttpRequest();
-  json.open('GET', '/js/videos.json', true);
-  json.onload = function () {
-    if (json.status < 400 && json.status >= 200) {
-      var jsondata = JSON.parse(json.response);
-      //Sækja okkar myndband úr fylkinu
-      var myvideo = videofind(jsondata.videos);
-      //Ef okkar myndband (myndband með sama ID og okkar var ekki til)
-      if (myvideo == null) {
-        errorMessage();
-      } else {
-        player.init(myvideo);
-      }
-    } else {
-      errorMessage();
-    }
-  };
-  json.send();
-}
 //  Fall til að hreinsa hlut
 function empty(el) {
   while (el.firstChild) {
     el.removeChild(el.firstChild);
   }
-}
-
-//  framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
-function errorMessage() {
-  var cont = document.querySelector('.main .container .videoContainer');
-  var error = document.createElement('div');
-  empty(cont);
-  error.setAttribute('class', 'errorMsg');
-  error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
-  cont.appendChild(error);
 }
 // notar ID úr querystring til að finna hvaða video var smellt á
 function videofind(data) {
@@ -51,6 +20,36 @@ function videofind(data) {
     }
   }
   return null;
+}
+//  framleiðir villuskilaboð ef axaj klikkar eða önnur villa í ajax kalli.
+function errorMessage() {
+  var cont = document.querySelector('.main .container .videoContainer');
+  var error = document.createElement('div');
+  empty(cont);
+  error.setAttribute('class', 'errorMsg');
+  error.appendChild(document.createTextNode('Gat ekki hlaðið gögnum'));
+  cont.appendChild(error);
+}
+//  Hlaða gögnum
+function load(url, player) {
+  var json = new XMLHttpRequest();
+  json.open('GET', '/js/videos.json', true);
+  json.onload = function () {
+    if (json.status < 400 && json.status >= 200) {
+      var jsondata = JSON.parse(json.response);
+      // Sækja okkar myndband úr fylkinu
+      var myvideo = videofind(jsondata.videos);
+      // Ef okkar myndband (myndband með sama ID og okkar var ekki til)
+      if (myvideo == null) {
+        errorMessage();
+      } else {
+        player.init(myvideo);
+      }
+    } else {
+      errorMessage();
+    }
+  };
+  json.send();
 }
 
 var Player = function () {
@@ -69,14 +68,14 @@ var Player = function () {
   }, {
     key: 'init',
     value: function init(data) {
-      // hér er data jsondata.video
+      // hér er data = jsondata.video
       this.videoinfo = data;
 
-      //  Búa til container á síðunni
+      //  Sækja container á síðunni
       this.container = document.querySelector(' .container');
-      // Búa til videocontainer
+      // Sækja videocontainer
       this.videoContainer = this.container.querySelector('.videoContainer');
-      //taka út loading.gif
+      // taka út loading.gif
       empty(this.videoContainer);
 
       // Setja titil efst á síðu
@@ -132,25 +131,9 @@ var Player = function () {
       this.overlay.addEventListener('click', this.playPause.bind(this));
       this.video.addEventListener('click', this.playPause.bind(this));
 
-      // Setja atburðahandler á myndband, sjá hvenar það klárast, skipta um myndband
+      // Setja atburðahandler á myndband, sjá hvenar það klárast, skipta um takka
       this.video.addEventListener('ended', this.show.bind(this));
     }
-  }, {
-    key: 'makeButton',
-    value: function makeButton(name) {
-      // button element með klasa player__button
-      var button = document.createElement('button');
-      button.setAttribute('class', 'player__button');
-      var imgElement = document.createElement('img');
-      imgElement.setAttribute('class', name);
-      imgElement.setAttribute('src', 'img/' + name + '.svg');
-      button.appendChild(imgElement);
-      this.player.appendChild(button);
-      return imgElement;
-    }
-
-    // gaura aukafalla til að sleppa við línur gerðar tvisvar
-
   }, {
     key: 'playPause',
     value: function playPause() {
@@ -162,12 +145,16 @@ var Player = function () {
         this.video.setAttribute('class', 'vid ');
         this.played = false;
       } else if (this.video.paused) {
+        // Ef myndband er pásað, er verið að play-a, fela skugga og play takka
         this.hide();
       } else {
+        // Það er verið að pása, sýna playtakka og overlay
         this.show();
         this.video.pause();
       }
     }
+    // Sýna gögn, overlay, playtakka á skjá og playtakka í player
+
   }, {
     key: 'show',
     value: function show() {
