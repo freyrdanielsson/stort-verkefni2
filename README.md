@@ -4,7 +4,7 @@ Annað af stórum skilaverkefnum í Vefforritun1 2017. Síða sem inniheldur myn
 
 ## Slóð á síðu
 
-Hægt er að nálgast síðuna í keyrslu  eftirfarandi slóðum:
+Hægt er að nálgast síðuna í keyrslu á eftirfarandi slóðum:
 * [Heimasvæði Arnars](https://notendur.hi.is/arp25/vefforritun/stortverkefni2/)
 
 * [Heimasvæði Freys](https://notendur.hi.is/fsd1/vefforritun/Stort-verkefni2/Myndbandaleigan/)
