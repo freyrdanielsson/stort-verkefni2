@@ -58,8 +58,7 @@ npm run eslint
 npm run stylelint
 ```
 
-* Browsersync leyfir þér að skoða vefsíðuna á meðan þú vinnur í henni. Hún opnar vefþjón og þú hostar basicly sjálfan þig. Síðan þín er á netinu en hún er samt ekki á netinu. Hún er bara aðgengileg þeim tengdum sama neti og þú!
-Til að keyra Sass, Babel og Browser sync er eftirfarandi skipun sleginn inn:
+* Browsersync leyfir þér að skoða vefsíðuna á meðan þú vinnur í henni. Hún opnar lítinn vefþjón á þinni eigin vél og þegar þú beytir .js skrá, .scss skrá eða index.html skránni þá endurhleður síðan sig og þ sérð breytingarnar strax.
 ```
 npm run dev
 ```
