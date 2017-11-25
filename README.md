@@ -37,6 +37,25 @@ Hægt að er lesa package.json skránna og þar sjást tólin sem eru notuð:
 * [Sylelint](https://stylelint.io/user-guide/) - Css linter
 * [BrowserSync](https://www.browsersync.io/) - Synchronised browser testing
 
+### Hvernig virka tólin?
+* í möppunni js  eru .js skrár skrár sem innihalda kóða eftir [ES2015](https://babeljs.io/learn-es2015/) staðlinum sem er framlenging á hinum hefbundna javascript kóða. Basicly fullt af flottum leiðum til að skrifa kóða en ekki allir vafrar styðja þennan staðal :(. Engar áhyggjur. Babel þýðir ES2015 yfir í hefbundin javascipt kóða sem er geymdur í script-compiled.js skránni. script-compiled.js.map skráin er mappið frá ES2015 yfir í hefbundið javascipt. Þið viljið láta html sækja script-compiled.js skránna, thats all. Það er reyndar ein .json skrá en hún geymir upplýsingar um myndböndin en hún er ekki þýdd (því hún er ekki .js skrá)
+
+* Á "svipaðan" hátt þýðir Sass nýtískulegan "css" kóða yfir í hefbindinn.
+
+* Eslint birtir allar villur (eða allt sem honum finnst vitlaust) í skrám sem eru í js möppunni. Keyrt með eftirfarandi skipun:
+```
+npm run eslint
+```
+* Stylelint birtir á sama hátt allt sem honum finnst vitlaust eða að betur mætti gera í .scss skrám. Keyrt með eftirfarandi skipun:
+```
+npm run stylelint
+```
+
+* Browsersync leyfir þér að skoða vefsíðuna á meðan þú vinnur í henni. Hún opnar vefþjón og þú hostar basicly sjálfan þig. Síðan þín er á netinu en hún er samt ekki á netinu. Hún er bara aðgengileg þeim tengdum sama neti og þú!
+Til að keyra Sass, Babel og Browser sync er eftirfarandi skipun sleginn inn:
+```
+npm run dev
+```
 
 ## Höfundar
 
