@@ -27,7 +27,7 @@ function errorMessage() {
 //  Hlaða gögnum
 function load(url, player) {
   const json = new XMLHttpRequest();
-  json.open('GET', '/js/videos.json', true);
+  json.open('GET', url, true);
   json.onload = () => {
     if (json.status < 400 && json.status >= 200) {
       const jsondata = JSON.parse(json.response);
@@ -141,7 +141,7 @@ class Player {
       this.video.pause();
     }
   }
-  // Sýna gögn, overlay, playtakka á skjá og playtakka í player
+  // Sýna gögn, overlay, play
   show() {
     this.overlay.setAttribute('class', 'overlay ');
     this.playImg.setAttribute('class', 'playImg');
