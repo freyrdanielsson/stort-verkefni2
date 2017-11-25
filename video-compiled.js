@@ -45,8 +45,10 @@ var Video = function () {
   function Video() {
     _classCallCheck(this, Video);
 
+    // þetta API_URL er linkurinn hér að neðan þegar síða er sett á netið
+    // https://notendur.hi.is/arp25/vefforritun/stortverkefni2/js/videos.json
     // local .json file
-    this.API_URL = 'https://notendur.hi.is/fsd/vefforritun/stortverkefni2/js/Myndbandaleigan/videos.json';
+    this.API_URL = '/js/videos.json';
     this.main = document.querySelector('main');
   }
 
