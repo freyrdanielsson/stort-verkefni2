@@ -37,7 +37,7 @@ Síðan er eftirfarandi skipun keyrð í sömu möppu og verkefnið:
 ```
 npm install
 ```
-Þá er náð í pakka sem í samræmi við það sem er talið upp í
+Þá er náð í pakka sem eru í samræmi við það sem er talið upp í
 * [package.json](https://github.com/arnar44/stort-verkefni2/blob/master/package.json) - Skrá sem skilgreinir pakka og dependency sem eru notaðir í verkefni
 
 Hægt að er lesa package.json skránna og þar sjást tólin sem eru notuð:
