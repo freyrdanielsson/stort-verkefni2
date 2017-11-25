@@ -49,7 +49,7 @@ function load(url, player) {
 class Player {
   constructor() {
     //  local .json file
-    this.API_URL = '/js/videos.json';
+    this.API_URL = 'https://notendur.hi.is/fsd1/vefforritun/stortverkefni2/js/Myndbandaleigan/videos.json';
   }
 
   go() {

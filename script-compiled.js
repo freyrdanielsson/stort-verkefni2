@@ -57,7 +57,7 @@ var Player = function () {
     _classCallCheck(this, Player);
 
     //  local .json file
-    this.API_URL = '/js/videos.json';
+    this.API_URL = 'https://notendur.hi.is/fsd1/vefforritun/stortverkefni2/js/Myndbandaleigan/videos.json';
   }
 
   _createClass(Player, [{
@@ -269,7 +269,7 @@ var Video = function () {
     _classCallCheck(this, Video);
 
     // local .json file
-    this.API_URL = '/js/videos.json';
+    this.API_URL = 'https://notendur.hi.is/fsd/vefforritun/stortverkefni2/js/Myndbandaleigan/videos.json';
     this.main = document.querySelector('main');
   }
 

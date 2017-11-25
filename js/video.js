@@ -38,7 +38,7 @@ class Video {
   // smiður
   constructor() {
     // local .json file
-    this.API_URL = '/js/videos.json';
+    this.API_URL = 'https://notendur.hi.is/fsd/vefforritun/stortverkefni2/js/Myndbandaleigan/videos.json';
     this.main = document.querySelector('main');
   }
 

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .container {
   display: flex;
   flex-direction: column;
@@ -50,8 +51,6 @@
 
 .errorMsg {
   margin: 100px;
-  color: #fff; }
-
   color: #fff; }
 
 .header {

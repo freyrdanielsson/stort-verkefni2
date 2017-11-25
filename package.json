@@ -7,10 +7,11 @@
     "eslint": "eslint js/*.js",
     "stylelint": "stylelint *.scss scss/*.scss --syntax scss",
     "lint": "npm-run-all --parallel eslint stylelint",
-    "babel": "babel js/*.js --watch --out-file script-compiled.js --source-maps",
+    "babel-video": "babel js/video.js --watch --out-file video-compiled.js --source-maps",
+    "babel-player": "babel js/player.js --watch --out-file player-compiled.js --source-maps",
     "browser-sync": "browser-sync start --server --files index.html styles.css script-compiled.js",
     "sass": "node-sass styles.scss styles.css -w",
-    "dev": "npm-run-all --parallel sass babel browser-sync"
+    "dev": "npm-run-all --parallel sass babel-video babel-player browser-sync"
   },
   "author": "",
   "license": "ISC",
