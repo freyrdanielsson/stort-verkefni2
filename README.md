@@ -16,6 +16,13 @@ Fyrst þarf að hlaða niður zip skrá sem inniheldur allar skrárnar. Hægt er
 git clone https://github.com/arnar44/stort-verkefni2.git
 ```
 
+* index.html er forsíðan (Það er rétt, þó það sé eiginlega engin kóði!). Hún er byggð á video.js sem er í js möppunni og stíluð af styles.css.
+* Myndbadsspilarinn fyrir hvert myndband er player.html byggður á player.js og stílaður af styles.css.
+
+* Að grafa niður í styles.css er vesen. Í sass möppunni eru skrár með lýsandi nöfnum og hægt er að sjá þar hvernig hlutir eru stílaðir. Sass er því eiginlega sundurliðun á styles.css sem er síðan tekin saman í styles.scss og svo þýdd í styles.css.
+
+* Ef þér langar að bæta við myndbandi skoðaðu þá videos.json í js möppunni. Þú einfaldlega setur myndbandið þitt (sem skal vera .mp4 skrá) í videos möppuna og síðan bætiru við upplýsingum um myndbandið þitt í videos.json skránna líkt og gert er fyrir hin myndböndin.
+
 ### Tæki og tól
 Verkefnið er unnið með pakkastjórnun:
 * [Node.js](https://nodejs.org/en/) - Node Package Controll
@@ -59,7 +66,7 @@ npm run dev
 
 ## Höfundar
 
-* **Arnar Pétursson** - arp25@hi.is
-* **Freyr Saputra Daníelsson** - fsd1@hi.is
+* **Arnar Pétursson** - arp25@hi.is - Hugbúnaðarverkfræðinemi
+* **Freyr Saputra Daníelsson** - fsd1@hi.is - Hugbúnaðarverkfræðinemi
 
 
