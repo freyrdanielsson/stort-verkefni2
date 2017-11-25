@@ -33,7 +33,7 @@ function errorMessage() {
 //  Hlaða gögnum
 function load(url, player) {
   var json = new XMLHttpRequest();
-  json.open('GET', '/js/videos.json', true);
+  json.open('GET', url, true);
   json.onload = function () {
     if (json.status < 400 && json.status >= 200) {
       var jsondata = JSON.parse(json.response);
@@ -153,7 +153,7 @@ var Player = function () {
         this.video.pause();
       }
     }
-    // Sýna gögn, overlay, playtakka á skjá og playtakka í player
+    // Sýna gögn, overlay, play
 
   }, {
     key: 'show',
