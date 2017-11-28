@@ -11,7 +11,7 @@ Hægt er að nálgast síðuna í keyrslu á eftirfarandi slóðum:
 
 ## Uppsetning
 
-Verkefnið er opið öllum sem vilja halda áfram að þróa það og eru nokkur og er skynsamlegt að nota þau tæki og tól sem verkefnið er upprunalega byggt á.
+Verkefnið er opið öllum sem vilja halda áfram að þróa og er skynsamlegt að nota þau tæki og tól sem verkefnið er upprunalega byggt á.
 
 Fyrst þarf að hlaða niður zip skrá sem inniheldur allar skrárnar. Hægt er að gera það efst á síðunni eða hægt er að líma og keyra eftirfarandi skipun:
 
