@@ -62,6 +62,7 @@ npm run stylelint
 ```
 
 * Browsersync leyfir þér að skoða vefsíðuna á meðan þú vinnur í henni. Hún opnar lítinn vefþjón á þinni eigin vél og þegar þú beytir .js skrá, .scss skrá eða index.html skránni þá endurhleður síðan sig og þ sérð breytingarnar strax.
+Til að keyra alla þýðendur og Browser-sync keyrið eftirfarandi skipun og þá ætti allt að vera klárt.
 ```
 npm run dev
 ```
